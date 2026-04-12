@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalsoom — Developer Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0A1931;
+      --surface: #1A3D63;
+      --surface2: #162f50;
+      --accent: #4A7FA7;
+      --accent-dim: rgba(74,127,167,0.15);
+      --accent-glow: rgba(74,127,167,0.4);
+      --light: #B3CFE5;
+      --text: #F6FAFD;
+      --muted: #7aa8c7;
+      --border: rgba(179,207,229,0.15);
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-display); overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(179,207,229,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(179,207,229,0.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 4rem; border-bottom: 1px solid var(--border); background: rgba(10,25,49,0.95); backdrop-filter: blur(16px); }
+    .nav-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.1em; color: var(--light); text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--light); }
+
+    section { position: relative; z-index: 2; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
+    .hero-orb { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(74,127,167,0.1) 0%, transparent 70%); top: 50%; left: 60%; transform: translate(-50%, -50%); pointer-events: none; }
+    .status-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: 100px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 2rem; background: var(--accent-dim); width: fit-content; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+    .hero-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .hero-name { font-size: clamp(4rem, 10vw, 9rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .hero-name span { display: block; color: transparent; -webkit-text-stroke: 1px rgba(179,207,229,0.3); }
+    .hero-desc { font-family: var(--font-mono); font-size: 0.95rem; color: var(--muted); max-width: 480px; line-height: 1.8; margin-bottom: 3rem; }
+    .hero-cta { display: flex; gap: 1rem; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s ease; }
+    .btn-primary { background: var(--accent); color: var(--text); font-weight: 600; }
+    .btn-primary:hover { box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--border); color: var(--muted); }
+    .btn-outline:hover { border-color: var(--light); color: var(--light); }
+
+    /* ABOUT */
+    .about { padding: 8rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; border-top: 1px solid var(--border); }
+    .section-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .section-title { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .about-text { font-family: var(--font-mono); font-size: 0.88rem; color: var(--muted); line-height: 1.9; margin-bottom: 2rem; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .skill-chip { padding: 0.6rem 1rem; border: 1px solid var(--border); border-radius: 2px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); background: var(--surface2); transition: all 0.2s; }
+    .skill-chip:hover { border-color: var(--light); color: var(--light); background: var(--accent-dim); transform: translateX(4px); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-card { padding: 2rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--light); line-height: 1; margin-bottom: 0.5rem; }
+    .stat-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* PROJECTS */
+    .projects { padding: 8rem 4rem; border-top: 1px solid var(--border); }
+    .projects-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+    .project-card { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; background: var(--surface); transition: all 0.3s ease; position: relative; margin-bottom: 2rem; }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(74,127,167,0.15); }
+    .project-visual { height: 240px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .project-visual-inner { text-align: center; position: relative; z-index: 1; }
+    .project-icon { font-size: 3.5rem; margin-bottom: 0.5rem; display: block; }
+    .project-visual-title { font-size: 1.4rem; font-weight: 800; color: var(--light); letter-spacing: 0.05em; }
+    .dots { position: absolute; inset: 0; overflow: hidden; }
+    .dot { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--light); opacity: 0.3; }
+    .project-body { padding: 2rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .tag { padding: 0.25rem 0.75rem; background: var(--accent-dim); border: 1px solid var(--border); border-radius: 100px; font-family: var(--font-mono); font-size: 0.65rem; color: var(--light); letter-spacing: 0.08em; }
+    .project-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+    .project-desc { font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+    .project-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--light); text-decoration: none; letter-spacing: 0.08em; transition: gap 0.2s; }
+    .project-link:hover { gap: 0.7rem; color: var(--accent); }
+    .project-link svg { width: 14px; height: 14px; }
+
+    /* CONTACT */
+    .contact { padding: 8rem 4rem; border-top: 1px solid var(--border); text-align: center; position: relative; overflow: hidden; }
+    .contact-glow { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(74,127,167,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .contact-text { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+    .contact-sub { font-family: var(--font-mono); font-size: 0.88rem; color: var(--muted); margin-bottom: 3rem; position: relative; z-index: 1; }
+    .contact-items { display: flex; flex-direction: column; align-items: center; gap: 1rem; position: relative; z-index: 1; }
+    .contact-link { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 2.5rem; border-radius: 8px; text-decoration: none; font-family: var(--font-mono); font-size: 0.85rem; transition: all 0.2s; width: 100%; max-width: 420px; justify-content: center; }
+    .contact-link-primary { border: 1px solid var(--accent); color: var(--light); background: var(--accent-dim); }
+    .contact-link-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .contact-link-secondary { border: 1px solid var(--border); color: var(--muted); }
+    .contact-link-secondary:hover { border-color: var(--light); color: var(--light); transform: translateY(-2px); }
+
+    footer { padding: 2rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
+    .footer-text { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      .hero-name { font-size: 3.5rem; }
+      .about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+      .projects { padding: 4rem 1.5rem; }
+      .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .contact { padding: 5rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">K/</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-orb"></div>
+    <div class="status-badge"><div class="status-dot"></div>Available for freelance work</div>
+    <div class="hero-tag">Computer Science Student & Developer</div>
+    <h1 class="hero-name">Kalsoom<span>Baloch</span></h1>
+    <p class="hero-desc">Building digital experiences that live at the intersection of clean code and bold design. From real-time multiplayer apps to brand websites — I ship things that work.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects →</a>
+      <a href="https://github.com/KalsoomBaloch" target="_blank" class="btn btn-outline">GitHub ↗</a>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div>
+      <div class="section-label">// About me</div>
+      <h2 class="section-title">Code. Build.<br>Ship. Repeat.</h2>
+      <p class="about-text">Computer Science student with a passion for building real products. I specialize in web development, real-time apps, and turning ideas into shipped projects — fast.<br><br>Currently open to freelance projects, collaborations, and exciting opportunities.</p>
+      <div class="skills-grid">
+        <div class="skill-chip">React / JSX</div>
+        <div class="skill-chip">JavaScript</div>
+        <div class="skill-chip">HTML & CSS</div>
+        <div class="skill-chip">Node.js</div>
+        <div class="skill-chip">Python</div>
+        <div class="skill-chip">CS Fundamentals</div>
+        <div class="skill-chip">Git & GitHub</div>
+        <div class="skill-chip">UI/UX Design</div>
+        <div class="skill-chip">AI-Assisted Dev</div>
+        <div class="skill-chip">Prompt Engineering</div>
+        <div class="skill-chip">Lovable.dev</div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-number">01</div><div class="stat-label">Live App Deployed</div></div>
+      <div class="stat-card"><div class="stat-number">4+</div><div class="stat-label">Game Modes Built</div></div>
+      <div class="stat-card"><div class="stat-number">∞</div><div class="stat-label">Lines of Code</div></div>
+      <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Shipped & Live</div></div>
+    </div>
+  </section>
+
+  <section class="projects" id="projects">
+    <div class="projects-header">
+      <div>
+        <div class="section-label">// Projects</div>
+        <h2 class="section-title">Things I've Built</h2>
+      </div>
+      <a href="https://github.com/KalsoomBaloch" target="_blank" class="btn btn-outline">All Projects ↗</a>
+    </div>
+
+    <!-- 1v1 Earth -->
+    <div class="project-card">
+      <div class="project-visual" style="background:linear-gradient(135deg,#0a1628,#1a2f4a);">
+        <div class="project-visual-inner">
+          <span class="project-icon">🌍</span>
+          <div class="project-visual-title">1v1 EARTH</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags"><span class="tag">React</span><span class="tag">Real-time</span><span class="tag">Multiplayer</span><span class="tag">Game Dev</span><span class="tag">Lovable.dev</span></div>
+        <h3 class="project-title">1v1 Earth — Global Duel Platform</h3>
+        <p class="project-desc">A real-time global dueling platform where players from around the world compete head-to-head. Features Trivia Duel, Tic Tac Toe, Word Scramble, and Hangman — complete with country flag detection, XP system, live leaderboards, and background music.</p>
+        <div class="project-links">
+          <a href="https://global-duel-quest.lovable.app" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+          <a href="https://github.com/KalsoomBaloch/1v1-Earth" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>Source Code</a>
+          <a href="gaming.html" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Landing Page</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lunette Nova -->
+    <div class="project-card">
+      <div class="project-visual" style="background:linear-gradient(135deg,#4a0000,#8B0000);">
+        <div class="project-visual-inner">
+          <span class="project-icon">🌙</span>
+          <div class="project-visual-title" style="color:#c9a96e;">lunette nova</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Landing Page</span><span class="tag">E-commerce</span></div>
+        <h3 class="project-title">Lunette Nova — Jewellery Brand Website</h3>
+        <p class="project-desc">A full landing page for a fine jewellery brand featuring 18+ products, celestial dark aesthetic, animated marquee, scroll reveals, testimonials, and Instagram shop integration.</p>
+        <div class="project-links">
+          <a href="lunette_nova.html" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gaming -->
+    <div class="project-card">
+      <div class="project-visual" style="background:linear-gradient(135deg,#060d1a,#0d1f35);">
+        <div class="project-visual-inner">
+          <span class="project-icon">🎮</span>
+          <div class="project-visual-title" style="color:#00e5ff;">Gaming App</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Landing Page</span><span class="tag">Gaming</span></div>
+        <h3 class="project-title">1v1 Earth — Gaming Landing Page</h3>
+        <p class="project-desc">A bold, dynamic landing page for 1v1 Earth gaming platform. Features dark neon aesthetic, real game screenshots, animated elements, feature showcase, and strong call to action.</p>
+        <div class="project-links">
+          <a href="gaming.html" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bookstore -->
+    <div class="project-card">
+      <div class="project-visual" style="background:linear-gradient(135deg,#2d1f3d,#4a3060);">
+        <div class="project-visual-inner">
+          <span class="project-icon">📚</span>
+          <div class="project-visual-title" style="color:#f4a8c0;">Bookstore</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Landing Page</span><span class="tag">Books</span></div>
+        <h3 class="project-title">Books & Bookstore — Landing Page</h3>
+        <p class="project-desc">A soft pastel landing page for a bookstore brand featuring real book covers, reader reviews, newsletter signup, and a dreamy feminine aesthetic.</p>
+        <div class="project-links">
+          <a href="bookstore.html" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beauty -->
+    <div class="project-card">
+      <div class="project-visual" style="background:linear-gradient(135deg,#2d0f1e,#4a1830);">
+        <div class="project-visual-inner">
+          <span class="project-icon">💄</span>
+          <div class="project-visual-title" style="color:#ffb3c6;">Beauty</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Landing Page</span><span class="tag">Beauty</span></div>
+        <h3 class="project-title">Beauty & Skincare — Landing Page</h3>
+        <p class="project-desc">An elegant landing page for a beauty and skincare brand. Features product showcase, ingredients highlight, testimonials, and a soft luxurious aesthetic.</p>
+        <div class="project-links">
+          <a href="beauty.html" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Food -->
+    <div class="project-card">
+      <div class="project-visual" style="background:linear-gradient(135deg,#1a0a00,#3d1f00);">
+        <div class="project-visual-inner">
+          <span class="project-icon">🍕</span>
+          <div class="project-visual-title" style="color:#ffcc80;">Food Brand</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Landing Page</span><span class="tag">Food</span></div>
+        <h3 class="project-title">Food & Restaurant — Landing Page</h3>
+        <p class="project-desc">A mouth-watering landing page for a food brand or restaurant. Features menu showcase, warm inviting aesthetic, customer reviews, and reservation CTA.</p>
+        <div class="project-links">
+          <a href="food.html" target="_blank" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-glow"></div>
+    <div class="section-label" style="position:relative;z-index:1;">// Contact</div>
+    <h2 class="contact-text">Let's Build<br><span style="color:var(--light);">Something.</span></h2>
+    <p class="contact-sub">Open to freelance projects, collabs, and opportunities.</p>
+    <div class="contact-items">
+      <a href="mailto:kalsoomfareedbaloch@gmail.com" class="contact-link contact-link-primary">📧 kalsoomfareedbaloch@gmail.com</a>
+      <a href="tel:+923208469523" class="contact-link contact-link-secondary">📞 0320-8469523</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-text">© 2025 Kalsoom — All rights reserved</div>
+    <div class="footer-text">Built with passion 💙</div>
+  </footer>
+
+</body>
+</html>
