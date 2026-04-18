@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bloom — Fine Fragrances</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0910;
+      --bg2: #14101c;
+      --surface: #1a1228;
+      --grape: #B3A2D8;
+      --diamond: #8A769B;
+      --mystical: #725D86;
+      --chateau: #7B593D;
+      --chateau-light: #b08050;
+      --smoke: #CECAC0;
+      --muted: #9b8ab0;
+      --border: rgba(179,162,216,0.12);
+      --font-d: 'Cormorant Garamond', serif;
+      --font-b: 'Jost', sans-serif;
+      --font-s: 'Dancing Script', cursive;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--smoke); font-family: var(--font-b); overflow-x: hidden; }
+
+    /* noise grain */
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); background: rgba(13,9,16,0.97); backdrop-filter: blur(20px); }
+    .nav-top { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 5rem; }
+    .nav-logo { font-family: var(--font-d); font-size: 2rem; font-weight: 300; letter-spacing: 0.5em; color: var(--smoke); text-transform: uppercase; font-style: italic; }
+    .nav-icons { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-icons span { font-size: 1.1rem; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+    .nav-icons span:hover { color: var(--smoke); }
+    .nav-menu { display: flex; justify-content: center; gap: 3rem; padding: 0.6rem 5rem; border-top: 1px solid var(--border); }
+    .nav-menu a { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; padding: 0.3rem 0; position: relative; }
+    .nav-menu a::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--grape); transform: scaleX(0); transition: transform 0.3s; }
+    .nav-menu a:hover { color: var(--smoke); }
+    .nav-menu a:hover::after { transform: scaleX(1); }
+
+    /* ── HERO BANNER ── */
+    .hero-banner { position: relative; height: 85vh; overflow: hidden; display: flex; align-items: center; justify-content: center; z-index: 1; }
+    .hero-bg-grad { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 50% 40%, rgba(114,93,134,0.3), rgba(123,89,61,0.15), transparent 70%), linear-gradient(180deg, #0d0910 0%, #1a1228 50%, #0d0910 100%); }
+    .hero-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(179,162,216,0.12), transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: glowP 5s ease-in-out infinite; }
+    @keyframes glowP { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.6;} 50%{transform:translate(-50%,-50%) scale(1.2);opacity:1;} }
+    .hero-bottle-wrap { position: relative; z-index: 2; text-align: center; }
+    .hero-bottle-img { width: 200px; height: 300px; object-fit: contain; filter: drop-shadow(0 30px 80px rgba(179,162,216,0.4)); animation: bottleHero 6s ease-in-out infinite; }
+    @keyframes bottleHero { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-18px) scale(1.02);} }
+    .hero-text { position: absolute; z-index: 3; bottom: 8%; left: 50%; transform: translateX(-50%); text-align: center; width: 100%; }
+    .hero-script { font-family: var(--font-s); font-size: 1.4rem; color: var(--chateau-light); margin-bottom: 0.5rem; }
+    .hero-title { font-family: var(--font-d); font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 300; letter-spacing: 0.1em; color: var(--smoke); margin-bottom: 1.5rem; }
+    .hero-title em { font-style: italic; color: var(--grape); }
+    .btn-discover { display: inline-block; padding: 0.8rem 3rem; border: 1px solid rgba(179,162,216,0.3); color: var(--smoke); font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; transition: all 0.4s; background: transparent; }
+    .btn-discover:hover { background: var(--mystical); border-color: var(--mystical); box-shadow: 0 0 25px rgba(114,93,134,0.3); }
+
+    /* ── SECTION HEADERS ── */
+    .section-wrap { position: relative; z-index: 1; }
+    .sec-head { text-align: center; padding: 4rem 0 3rem; }
+    .sec-eyebrow { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--chateau-light); margin-bottom: 0.75rem; display: block; }
+    .sec-title { font-family: var(--font-d); font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 300; color: var(--smoke); }
+    .sec-title em { font-style: italic; color: var(--grape); }
+    .sec-divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--grape), transparent); margin: 1rem auto 0; }
+
+    /* ── PRODUCT GRID (Dior-style 3 col) ── */
+    .products-section { padding: 2rem 5rem 6rem; }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+    .prod-card { background: var(--bg2); padding: 3rem 2.5rem 2.5rem; text-align: center; transition: all 0.3s; position: relative; overflow: hidden; }
+    .prod-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(114,93,134,0.08), transparent 60%); opacity: 0; transition: opacity 0.3s; }
+    .prod-card:hover::before { opacity: 1; }
+    .prod-card:hover { transform: translateY(-4px); }
+    .prod-badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .prod-badge { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--chateau-light); }
+    .prod-wishlist { font-size: 1rem; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+    .prod-wishlist:hover { color: var(--grape); }
+    .prod-bottle-img { width: 160px; height: 220px; object-fit: contain; margin: 0 auto 2rem; display: block; filter: drop-shadow(0 15px 40px rgba(179,162,216,0.25)); transition: transform 0.4s; }
+    .prod-card:hover .prod-bottle-img { transform: scale(1.06) translateY(-5px); }
+    .prod-name { font-family: var(--font-d); font-size: 1.3rem; font-weight: 400; color: var(--smoke); margin-bottom: 0.3rem; }
+    .prod-type { font-size: 0.68rem; color: var(--muted); font-style: italic; margin-bottom: 0.5rem; }
+    .prod-notes { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+    .prod-stars { color: var(--chateau-light); font-size: 0.7rem; letter-spacing: 0.2em; margin-bottom: 1rem; }
+    .prod-price { font-family: var(--font-d); font-size: 1.2rem; color: var(--grape); font-weight: 300; margin-bottom: 1.5rem; }
+    .prod-shop { display: inline-block; padding: 0.65rem 2.5rem; border: 1px solid var(--border); color: var(--smoke); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+    .prod-shop:hover { background: var(--mystical); border-color: var(--mystical); }
+
+    /* ── FEATURED FULL WIDTH BANNER ── */
+    .featured-banner { position: relative; height: 70vh; overflow: hidden; display: flex; align-items: center; z-index: 1; }
+    .fb-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 65% 50%, rgba(114,93,134,0.4), rgba(123,89,61,0.2), transparent 65%), linear-gradient(135deg, #0d0910, #1a1228); }
+    .fb-bottle { position: absolute; right: 10%; top: 50%; transform: translateY(-50%); width: 280px; object-fit: contain; filter: drop-shadow(0 30px 80px rgba(179,162,216,0.5)); animation: bottleHero 6s ease-in-out infinite; }
+    .fb-content { position: relative; z-index: 2; padding: 0 8rem; max-width: 600px; }
+    .fb-script { font-family: var(--font-s); font-size: 1.3rem; color: var(--chateau-light); margin-bottom: 1rem; }
+    .fb-title { font-family: var(--font-d); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 0.95; margin-bottom: 1rem; }
+    .fb-title em { font-style: italic; color: var(--grape); display: block; }
+    .fb-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.9; font-weight: 300; margin-bottom: 2rem; max-width: 380px; }
+
+    /* ── NEW ARRIVALS ── */
+    .new-arrivals { padding: 2rem 5rem 6rem; }
+    .arrivals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); }
+    .arrival-card { background: var(--bg); padding: 2.5rem 2rem; text-align: center; transition: all 0.3s; position: relative; border-bottom: 2px solid transparent; }
+    .arrival-card:hover { border-bottom-color: var(--mystical); transform: translateY(-3px); }
+    .arrival-badges { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; }
+    .badge-tag { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(179,162,216,0.2); color: var(--grape); }
+    .arrival-img { width: 140px; height: 190px; object-fit: contain; margin: 0 auto 1.5rem; display: block; filter: drop-shadow(0 10px 30px rgba(179,162,216,0.2)); transition: transform 0.4s; }
+    .arrival-card:hover .arrival-img { transform: scale(1.07) translateY(-4px); }
+    .arrival-name { font-family: var(--font-d); font-size: 1.1rem; color: var(--smoke); margin-bottom: 0.3rem; }
+    .arrival-sub { font-size: 0.65rem; color: var(--muted); font-style: italic; margin-bottom: 0.4rem; }
+    .arrival-price { font-family: var(--font-d); font-size: 1.1rem; color: var(--grape); margin-bottom: 1rem; }
+    .arrival-btn { display: inline-block; padding: 0.6rem 2rem; border: 1px solid var(--border); color: var(--muted); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+    .arrival-btn:hover { background: var(--mystical); border-color: var(--mystical); color: var(--smoke); }
+
+    /* ── INGREDIENTS ── */
+    .ingredients { padding: 6rem 5rem; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .ing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .ing-card { background: var(--surface); padding: 2.5rem 1.5rem; text-align: center; transition: background 0.3s; }
+    .ing-card:hover { background: rgba(114,93,134,0.15); }
+    .ing-emoji { font-size: 2.5rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(179,162,216,0.3)); }
+    .ing-type { font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--chateau-light); margin-bottom: 0.4rem; }
+    .ing-name { font-family: var(--font-d); font-size: 1.2rem; color: var(--smoke); margin-bottom: 0.4rem; }
+    .ing-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── MARQUEE ── */
+    .mq { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.85rem 0; background: rgba(26,18,37,0.6); position: relative; z-index: 1; }
+    .mq-inner { display: flex; gap: 4rem; animation: mqs 30s linear infinite; width: max-content; }
+    .mq-item { font-family: var(--font-d); font-size: 0.9rem; font-style: italic; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 1.2rem; letter-spacing: 0.1em; }
+    .mq-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--grape); flex-shrink: 0; }
+    @keyframes mqs { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── REVIEWS ── */
+    .reviews { padding: 6rem 5rem; }
+    .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .rev-card { padding: 2.5rem; border: 1px solid var(--border); background: var(--bg2); transition: all 0.3s; position: relative; }
+    .rev-card:hover { border-color: var(--mystical); transform: translateY(-4px); }
+    .rev-card::before { content: '"'; font-family: var(--font-d); font-size: 6rem; color: rgba(179,162,216,0.06); position: absolute; top: 0; left: 1.5rem; line-height: 1; }
+    .rev-stars { color: var(--chateau-light); font-size: 0.72rem; letter-spacing: 0.2em; margin-bottom: 1rem; }
+    .rev-text { font-family: var(--font-d); font-size: 0.98rem; font-style: italic; color: var(--smoke); line-height: 1.8; margin-bottom: 1.5rem; padding-top: 1rem; font-weight: 300; }
+    .rev-author { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grape); }
+    .rev-scent { font-size: 0.58rem; color: var(--muted); margin-top: 0.2rem; font-style: italic; }
+
+    /* ── CTA ── */
+    .cta { position: relative; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; z-index: 1; }
+    .cta-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(114,93,134,0.2), rgba(123,89,61,0.1), transparent 65%), linear-gradient(180deg, var(--bg), #1a1228, var(--bg)); }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-script { font-family: var(--font-s); font-size: 1.8rem; color: var(--chateau-light); margin-bottom: 1rem; }
+    .cta-title { font-family: var(--font-d); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 0.9; margin-bottom: 1.5rem; }
+    .cta-title em { font-style: italic; color: var(--grape); display: block; }
+    .cta-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 2.5rem; letter-spacing: 0.1em; }
+
+    /* ── FOOTER MARQUEE ── */
+    .footer-mq { overflow: hidden; border-top: 1px solid var(--border); padding: 0.75rem 0; background: var(--bg2); }
+    .footer-mq-inner { display: flex; gap: 3rem; animation: mqs 20s linear infinite; width: max-content; }
+    .fmq-item { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 0.8rem; }
+    .fmq-sep { color: var(--mystical); }
+
+    /* ── FOOTER ── */
+    footer { padding: 3rem 5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; }
+    .f-logo { font-family: var(--font-d); font-size: 1.5rem; font-style: italic; color: var(--smoke); letter-spacing: 0.3em; text-transform: uppercase; }
+    .f-center { text-align: center; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; }
+    .f-links { display: flex; gap: 1.5rem; justify-content: flex-end; }
+    .f-links a { font-size: 0.6rem; color: var(--muted); text-decoration: none; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
+    .f-links a:hover { color: var(--smoke); }
+
+    /* SCROLL ANIMS */
+    .fu { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .fl { opacity: 0; transform: translateX(-40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .fr { opacity: 0; transform: translateX(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .fu.in, .fl.in, .fr.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s}
+
+    @media(max-width:900px){
+      nav .nav-top, nav .nav-menu{padding:1rem 1.5rem;} .nav-menu{gap:1.5rem;flex-wrap:wrap;}
+      .hero-banner{height:70vh;} .hero-bottle-img{width:140px;height:210px;}
+      .products-section,.new-arrivals,.ingredients,.reviews{padding:2rem 1.5rem 4rem;}
+      .products-grid,.arrivals-grid{grid-template-columns:1fr;}
+      .ing-grid{grid-template-columns:1fr 1fr;}
+      .rev-grid{grid-template-columns:1fr;}
+      .featured-banner{height:auto;padding:5rem 1.5rem;flex-direction:column;}
+      .fb-bottle{position:relative;right:auto;top:auto;transform:none;width:200px;margin-bottom:2rem;}
+      .fb-content{padding:0;}
+      footer{grid-template-columns:1fr;gap:1rem;padding:2rem 1.5rem;text-align:center;}
+      .f-links{justify-content:center;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-top">
+    <div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);">Women's Fragrance</div>
+    <div class="nav-logo">Bloom</div>
+    <div class="nav-icons">
+      <span>🔍</span>
+      <span>♡</span>
+      <span>👤</span>
+      <span>🛍</span>
+    </div>
+  </div>
+  <div class="nav-menu">
+    <a href="#collections">Women's Fragrance</a>
+    <a href="#collections">Men's Fragrance</a>
+    <a href="#collections">Collections</a>
+    <a href="#ingredients">Ingredients</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#cta">Gift Sets</a>
+    <a href="#cta">About Bloom</a>
+  </div>
+</nav>
+
+<!-- HERO BANNER -->
+<section class="hero-banner">
+  <div class="hero-bg-grad"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-bottle-wrap">
+    <!-- Purple perfume bottle SVG - detailed -->
+    <svg class="hero-bottle-img" viewBox="0 0 160 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cap -->
+      <rect x="58" y="4" width="44" height="16" rx="3" fill="url(#capG)"/>
+      <rect x="62" y="8" width="36" height="10" rx="2" fill="url(#capG2)"/>
+      <!-- Neck -->
+      <rect x="66" y="18" width="28" height="42" rx="4" fill="url(#neckG)"/>
+      <rect x="70" y="22" width="8" height="30" rx="4" fill="rgba(255,255,255,0.06)"/>
+      <!-- Collar -->
+      <rect x="55" y="56" width="50" height="10" rx="3" fill="url(#colG)"/>
+      <!-- Body -->
+      <rect x="20" y="64" width="120" height="200" rx="14" fill="url(#bodyG)"/>
+      <!-- Shine left -->
+      <rect x="28" y="76" width="14" height="170" rx="7" fill="rgba(255,255,255,0.05)"/>
+      <!-- Inner glow -->
+      <ellipse cx="80" cy="164" rx="45" ry="75" fill="url(#glowG)" opacity="0.5"/>
+      <!-- Label area -->
+      <rect x="35" y="110" width="90" height="100" rx="6" fill="rgba(0,0,0,0.2)" stroke="rgba(179,162,216,0.15)" stroke-width="0.5"/>
+      <!-- Brand name -->
+      <text x="80" y="150" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="rgba(206,202,192,0.7)" letter-spacing="4">Bloom</text>
+      <line x1="45" y1="162" x2="115" y2="162" stroke="rgba(179,162,216,0.2)" stroke-width="0.5"/>
+      <text x="80" y="178" text-anchor="middle" font-family="sans-serif" font-size="6" fill="rgba(155,138,176,0.55)" letter-spacing="5">EAU DE PARFUM</text>
+      <!-- Bottom shadow -->
+      <ellipse cx="80" cy="258" rx="52" ry="6" fill="rgba(114,93,134,0.3)"/>
+      <defs>
+        <linearGradient id="capG" x1="58" y1="4" x2="102" y2="20" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#c9a97a"/><stop offset="100%" stop-color="#7B593D"/>
+        </linearGradient>
+        <linearGradient id="capG2" x1="62" y1="8" x2="98" y2="18" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#e0c090"/><stop offset="100%" stop-color="#a07850"/>
+        </linearGradient>
+        <linearGradient id="neckG" x1="66" y1="18" x2="94" y2="60" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#9A869B"/><stop offset="100%" stop-color="#5a3d70"/>
+        </linearGradient>
+        <linearGradient id="colG" x1="55" y1="56" x2="105" y2="66" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#a07850"/><stop offset="100%" stop-color="#7B593D"/>
+        </linearGradient>
+        <linearGradient id="bodyG" x1="20" y1="64" x2="140" y2="264" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#6b4a90"/>
+          <stop offset="20%" stop-color="#8a5aaa"/>
+          <stop offset="50%" stop-color="#7a50a0"/>
+          <stop offset="80%" stop-color="#5a3d80"/>
+          <stop offset="100%" stop-color="#2d1f3d"/>
+        </linearGradient>
+        <radialGradient id="glowG" cx="50%" cy="35%" r="55%">
+          <stop offset="0%" stop-color="#B3A2D8" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#725D86" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+    </svg>
+  </div>
+  <div class="hero-text">
+    <p class="hero-script">the art of bloom</p>
+    <h1 class="hero-title">The Night <em>Treasure</em></h1>
+    <a href="#collections" class="btn-discover">Discover</a>
+  </div>
+</section>
+
+<!-- OUR SELECTION -->
+<div class="section-wrap">
+  <div class="sec-head fu">
+    <span class="sec-eyebrow">Our Selection</span>
+    <h2 class="sec-title">Signature <em>Fragrances</em></h2>
+    <div class="sec-divider"></div>
+  </div>
+  <div class="products-section">
+    <div class="products-grid">
+
+      <!-- Midnight Rose -->
+      <div class="prod-card fu d1">
+        <div class="prod-badge-row">
+          <span class="prod-badge">Bestseller</span>
+          <span class="prod-wishlist">♡</span>
+        </div>
+        <!-- Rose bottle SVG -->
+        <svg class="prod-bottle-img" viewBox="0 0 120 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="47" y="3" width="26" height="12" rx="2" fill="#a07850"/>
+          <rect x="50" y="13" width="20" height="32" rx="3" fill="url(#rb1)"/>
+          <rect x="40" y="42" width="40" height="8" rx="2" fill="#9A769B"/>
+          <rect x="15" y="48" width="90" height="158" rx="12" fill="url(#rb2)"/>
+          <rect x="22" y="58" width="10" height="130" rx="5" fill="rgba(255,255,255,0.05)"/>
+          <ellipse cx="60" cy="127" rx="32" ry="55" fill="url(#rb3)" opacity="0.5"/>
+          <rect x="28" y="88" width="64" height="74" rx="4" fill="rgba(0,0,0,0.2)" stroke="rgba(255,180,180,0.15)" stroke-width="0.5"/>
+          <text x="60" y="118" text-anchor="middle" font-family="serif" font-size="9" font-style="italic" fill="rgba(240,200,200,0.7)" letter-spacing="2">Midnight</text>
+          <text x="60" y="132" text-anchor="middle" font-family="serif" font-size="9" font-style="italic" fill="rgba(240,200,200,0.7)" letter-spacing="2">Rose</text>
+          <line x1="35" y1="140" x2="85" y2="140" stroke="rgba(255,150,150,0.2)" stroke-width="0.5"/>
+          <text x="60" y="152" text-anchor="middle" font-family="sans-serif" font-size="5" fill="rgba(180,120,120,0.5)" letter-spacing="4">BLOOM</text>
+          <ellipse cx="60" cy="202" rx="38" ry="5" fill="rgba(139,0,0,0.2)"/>
+          <defs>
+            <linearGradient id="rb1" x1="50" y1="13" x2="70" y2="45" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c4769B"/><stop offset="100%" stop-color="#8a4060"/></linearGradient>
+            <linearGradient id="rb2" x1="15" y1="48" x2="105" y2="206" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#8B1a3a"/>
+              <stop offset="30%" stop-color="#aa2545"/>
+              <stop offset="60%" stop-color="#951d38"/>
+              <stop offset="100%" stop-color="#4a0f1f"/>
+            </linearGradient>
+            <radialGradient id="rb3" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#ffaac0" stop-opacity="0.3"/><stop offset="100%" stop-color="#8B0030" stop-opacity="0"/></radialGradient>
+          </defs>
+        </svg>
+        <div class="prod-name">Midnight Rose</div>
+        <div class="prod-type">Eau de Parfum</div>
+        <div class="prod-notes">Dark Rose · Oud · Warm Amber</div>
+        <div class="prod-stars">★ ★ ★ ★ ★</div>
+        <div class="prod-price">Rs. 4,800 · 50mL</div>
+        <a href="#cta" class="prod-shop">Shop</a>
+      </div>
+
+      <!-- Velvet Oud -->
+      <div class="prod-card fu d2">
+        <div class="prod-badge-row">
+          <span class="prod-badge">Bestseller</span>
+          <span class="prod-wishlist">♡</span>
+        </div>
+        <!-- Oud bottle SVG - tall elegant -->
+        <svg class="prod-bottle-img" viewBox="0 0 120 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="50" y="2" width="20" height="10" rx="2" fill="#c9a97a"/>
+          <ellipse cx="60" cy="10" rx="12" ry="6" fill="#e0c090"/>
+          <rect x="53" y="10" width="14" height="35" rx="3" fill="url(#ob1)"/>
+          <rect x="42" y="42" width="36" height="7" rx="2" fill="#a07850"/>
+          <rect x="18" y="48" width="84" height="158" rx="10" fill="url(#ob2)"/>
+          <rect x="24" y="58" width="8" height="130" rx="4" fill="rgba(255,255,255,0.04)"/>
+          <ellipse cx="60" cy="127" rx="30" ry="55" fill="url(#ob3)" opacity="0.45"/>
+          <rect x="28" y="85" width="64" height="78" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(200,169,122,0.15)" stroke-width="0.5"/>
+          <text x="60" y="116" text-anchor="middle" font-family="serif" font-size="9" font-style="italic" fill="rgba(220,195,150,0.75)" letter-spacing="2">Velvet</text>
+          <text x="60" y="130" text-anchor="middle" font-family="serif" font-size="9" font-style="italic" fill="rgba(220,195,150,0.75)" letter-spacing="2">Oud</text>
+          <line x1="35" y1="140" x2="85" y2="140" stroke="rgba(200,169,122,0.2)" stroke-width="0.5"/>
+          <text x="60" y="152" text-anchor="middle" font-family="sans-serif" font-size="5" fill="rgba(180,150,100,0.5)" letter-spacing="4">BLOOM</text>
+          <ellipse cx="60" cy="202" rx="36" ry="5" fill="rgba(80,50,20,0.25)"/>
+          <defs>
+            <linearGradient id="ob1" x1="53" y1="10" x2="67" y2="45" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c9a97a"/><stop offset="100%" stop-color="#7B593D"/></linearGradient>
+            <linearGradient id="ob2" x1="18" y1="48" x2="102" y2="206" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#5a3a1a"/>
+              <stop offset="25%" stop-color="#7a5025"/>
+              <stop offset="55%" stop-color="#6a4520"/>
+              <stop offset="100%" stop-color="#2d1a08"/>
+            </linearGradient>
+            <radialGradient id="ob3" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#e0c090" stop-opacity="0.3"/><stop offset="100%" stop-color="#7B593D" stop-opacity="0"/></radialGradient>
+          </defs>
+        </svg>
+        <div class="prod-name">Velvet Oud</div>
+        <div class="prod-type">Eau de Parfum Intense</div>
+        <div class="prod-notes">Ancient Oud · Velvet Musk · Amber</div>
+        <div class="prod-stars">★ ★ ★ ★ ★</div>
+        <div class="prod-price">Rs. 5,200 · 50mL</div>
+        <a href="#cta" class="prod-shop">Shop</a>
+      </div>
+
+      <!-- Bloom Noir -->
+      <div class="prod-card fu d3">
+        <div class="prod-badge-row">
+          <span class="prod-badge">New</span>
+          <span class="prod-wishlist">♡</span>
+        </div>
+        <!-- Noir signature bottle SVG -->
+        <svg class="prod-bottle-img" viewBox="0 0 120 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bow decoration on cap -->
+          <rect x="44" y="3" width="32" height="14" rx="3" fill="url(#nb1)"/>
+          <path d="M48 8 Q52 5 56 8 Q52 11 48 8Z" fill="rgba(179,162,216,0.4)"/>
+          <path d="M64 8 Q68 5 72 8 Q68 11 64 8Z" fill="rgba(179,162,216,0.4)"/>
+          <circle cx="60" cy="8" r="3" fill="#B3A2D8"/>
+          <!-- Neck -->
+          <rect x="52" y="15" width="16" height="30" rx="3" fill="url(#nb2)"/>
+          <!-- Collar -->
+          <rect x="40" y="42" width="40" height="7" rx="2" fill="#725D86"/>
+          <!-- Body - square elegant -->
+          <rect x="16" y="47" width="88" height="162" rx="8" fill="url(#nb3)"/>
+          <rect x="16" y="47" width="88" height="162" rx="8" fill="url(#nbS)" opacity="0.3"/>
+          <!-- Shine -->
+          <rect x="22" y="56" width="10" height="140" rx="5" fill="rgba(255,255,255,0.05)"/>
+          <!-- Inner glow -->
+          <ellipse cx="60" cy="128" rx="32" ry="58" fill="url(#nb4)" opacity="0.5"/>
+          <!-- Label -->
+          <rect x="28" y="82" width="64" height="84" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(179,162,216,0.12)" stroke-width="0.5"/>
+          <text x="60" y="112" text-anchor="middle" font-family="serif" font-size="10" font-style="italic" fill="rgba(206,202,192,0.75)" letter-spacing="2">Bloom</text>
+          <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="10" font-style="italic" fill="rgba(179,162,216,0.75)" letter-spacing="2">Noir</text>
+          <line x1="35" y1="138" x2="85" y2="138" stroke="rgba(179,162,216,0.2)" stroke-width="0.5"/>
+          <text x="60" y="152" text-anchor="middle" font-family="sans-serif" font-size="5" fill="rgba(155,138,176,0.5)" letter-spacing="4">BLOOM</text>
+          <ellipse cx="60" cy="205" rx="40" ry="5" fill="rgba(114,93,134,0.25)"/>
+          <defs>
+            <linearGradient id="nb1" x1="44" y1="3" x2="76" y2="17" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#9A869B"/><stop offset="100%" stop-color="#5a3d70"/></linearGradient>
+            <linearGradient id="nb2" x1="52" y1="15" x2="68" y2="45" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8A769B"/><stop offset="100%" stop-color="#4a3060"/></linearGradient>
+            <linearGradient id="nb3" x1="16" y1="47" x2="104" y2="209" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4a3060"/>
+              <stop offset="25%" stop-color="#6a4a90"/>
+              <stop offset="55%" stop-color="#5a3d80"/>
+              <stop offset="100%" stop-color="#1a0d2a"/>
+            </linearGradient>
+            <linearGradient id="nbS" x1="16" y1="47" x2="104" y2="47" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="rgba(255,255,255,0.08)"/><stop offset="40%" stop-color="rgba(255,255,255,0.02)"/><stop offset="100%" stop-color="transparent"/>
+            </linearGradient>
+            <radialGradient id="nb4" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#B3A2D8" stop-opacity="0.3"/><stop offset="100%" stop-color="#725D86" stop-opacity="0"/></radialGradient>
+          </defs>
+        </svg>
+        <div class="prod-name">Bloom Noir</div>
+        <div class="prod-type">Eau de Parfum</div>
+        <div class="prod-notes">Jasmine · Sandalwood · Pure Musk</div>
+        <div class="prod-stars">★ ★ ★ ★ ★</div>
+        <div class="prod-price">Rs. 4,500 · 50mL</div>
+        <a href="#cta" class="prod-shop">Shop</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-inner">
+    <div class="mq-item"><div class="mq-dot"></div>Midnight Rose</div>
+    <div class="mq-item"><div class="mq-dot"></div>Velvet Oud</div>
+    <div class="mq-item"><div class="mq-dot"></div>Bloom Noir</div>
+    <div class="mq-item"><div class="mq-dot"></div>Sacred Jasmine</div>
+    <div class="mq-item"><div class="mq-dot"></div>Pure Musk</div>
+    <div class="mq-item"><div class="mq-dot"></div>Dark Amber</div>
+    <div class="mq-item"><div class="mq-dot"></div>Mystic Oud</div>
+    <div class="mq-item"><div class="mq-dot"></div>Midnight Rose</div>
+    <div class="mq-item"><div class="mq-dot"></div>Velvet Oud</div>
+    <div class="mq-item"><div class="mq-dot"></div>Bloom Noir</div>
+    <div class="mq-item"><div class="mq-dot"></div>Sacred Jasmine</div>
+    <div class="mq-item"><div class="mq-dot"></div>Pure Musk</div>
+    <div class="mq-item"><div class="mq-dot"></div>Dark Amber</div>
+    <div class="mq-item"><div class="mq-dot"></div>Mystic Oud</div>
+  </div>
+</div>
+
+<!-- FEATURED BANNER — Bloom Noir spotlight -->
+<section class="featured-banner" id="collections">
+  <div class="fb-bg"></div>
+  <!-- Bloom Noir bottle repeated large -->
+  <svg class="fb-bottle" viewBox="0 0 160 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="58" y="4" width="44" height="16" rx="3" fill="url(#fbCap)"/>
+    <path d="M64 10 Q72 5 80 10 Q72 15 64 10Z" fill="rgba(179,162,216,0.5)"/>
+    <path d="M80 10 Q88 5 96 10 Q88 15 80 10Z" fill="rgba(179,162,216,0.5)"/>
+    <circle cx="80" cy="10" r="4" fill="#B3A2D8"/>
+    <rect x="68" y="18" width="24" height="38" rx="3" fill="url(#fbNeck)"/>
+    <rect x="55" y="52" width="50" height="9" rx="3" fill="#725D86"/>
+    <rect x="22" y="59" width="116" height="206" rx="12" fill="url(#fbBody)"/>
+    <rect x="22" y="59" width="116" height="206" rx="12" fill="url(#fbShine)" opacity="0.3"/>
+    <rect x="30" y="70" width="14" height="178" rx="7" fill="rgba(255,255,255,0.05)"/>
+    <ellipse cx="80" cy="162" rx="44" ry="78" fill="url(#fbGlow)" opacity="0.5"/>
+    <rect x="36" y="108" width="88" height="100" rx="6" fill="rgba(0,0,0,0.2)" stroke="rgba(179,162,216,0.12)" stroke-width="0.5"/>
+    <text x="80" y="148" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="rgba(206,202,192,0.75)" letter-spacing="4">Bloom</text>
+    <text x="80" y="166" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="rgba(179,162,216,0.75)" letter-spacing="4">Noir</text>
+    <line x1="45" y1="178" x2="115" y2="178" stroke="rgba(179,162,216,0.2)" stroke-width="0.5"/>
+    <text x="80" y="195" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(155,138,176,0.5)" letter-spacing="6">EAU DE PARFUM</text>
+    <ellipse cx="80" cy="260" rx="54" ry="7" fill="rgba(114,93,134,0.3)"/>
+    <defs>
+      <linearGradient id="fbCap" x1="58" y1="4" x2="102" y2="20" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#9A869B"/><stop offset="100%" stop-color="#5a3d70"/></linearGradient>
+      <linearGradient id="fbNeck" x1="68" y1="18" x2="92" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8A769B"/><stop offset="100%" stop-color="#4a3060"/></linearGradient>
+      <linearGradient id="fbBody" x1="22" y1="59" x2="138" y2="265" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#5a3d80"/><stop offset="30%" stop-color="#7a55a5"/><stop offset="60%" stop-color="#6a4a90"/><stop offset="100%" stop-color="#1a0d2a"/>
+      </linearGradient>
+      <linearGradient id="fbShine" x1="22" y1="59" x2="138" y2="59" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="rgba(255,255,255,0.08)"/><stop offset="40%" stop-color="rgba(255,255,255,0.02)"/><stop offset="100%" stop-color="transparent"/></linearGradient>
+      <radialGradient id="fbGlow" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#B3A2D8" stop-opacity="0.3"/><stop offset="100%" stop-color="#725D86" stop-opacity="0"/></radialGradient>
+    </defs>
+  </svg>
+  <div class="fb-content fl">
+    <p class="fb-script">the signature scent</p>
+    <h2 class="fb-title">Bloom<br><em>Noir</em></h2>
+    <p class="fb-desc">The fragrance that started it all. Jasmine, sandalwood and a trace of mystery — as timeless as the night itself. Eau de Parfum · 50mL</p>
+    <a href="#cta" class="btn-discover">Discover</a>
+  </div>
+</section>
+
+<!-- NEW ARRIVALS -->
+<div class="section-wrap">
+  <div class="sec-head fu">
+    <span class="sec-eyebrow">Women's Fragrance New Arrivals</span>
+    <h2 class="sec-title">Latest <em>Collections</em></h2>
+    <div class="sec-divider"></div>
+  </div>
+  <div class="new-arrivals">
+    <div class="arrivals-grid">
+
+      <!-- Sacred Jasmine -->
+      <div class="arrival-card fu d1">
+        <div class="arrival-badges"><span class="badge-tag">New</span></div>
+        <svg class="arrival-img" viewBox="0 0 100 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="38" y="2" width="24" height="10" rx="2" fill="#c9a97a"/>
+          <rect x="43" y="10" width="14" height="25" rx="2" fill="url(#j1)"/>
+          <rect x="30" y="32" width="40" height="6" rx="2" fill="#9A769B"/>
+          <rect x="12" y="37" width="76" height="132" rx="10" fill="url(#j2)"/>
+          <ellipse cx="50" cy="103" rx="26" ry="45" fill="url(#j3)" opacity="0.4"/>
+          <text x="50" y="95" text-anchor="middle" font-family="serif" font-size="7" font-style="italic" fill="rgba(220,200,180,0.7)" letter-spacing="1">Sacred</text>
+          <text x="50" y="108" text-anchor="middle" font-family="serif" font-size="7" font-style="italic" fill="rgba(220,200,180,0.7)" letter-spacing="1">Jasmine</text>
+          <text x="50" y="122" text-anchor="middle" font-family="sans-serif" font-size="4" fill="rgba(180,150,100,0.5)" letter-spacing="3">BLOOM</text>
+          <defs>
+            <linearGradient id="j1" x1="43" y1="10" x2="57" y2="35" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#d4b896"/><stop offset="100%" stop-color="#8a6040"/></linearGradient>
+            <linearGradient id="j2" x1="12" y1="37" x2="88" y2="169" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6a5020"/><stop offset="50%" stop-color="#8a6a2a"/><stop offset="100%" stop-color="#3a2810"/></linearGradient>
+            <radialGradient id="j3" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#e0d080" stop-opacity="0.3"/><stop offset="100%" stop-color="#7a5a20" stop-opacity="0"/></radialGradient>
+          </defs>
+        </svg>
+        <div class="arrival-name">Sacred Jasmine</div>
+        <div class="arrival-sub">Eau de Parfum · Solar Floral Notes</div>
+        <div class="arrival-price">Rs. 4,200</div>
+        <a href="#cta" class="arrival-btn">Shop</a>
+      </div>
+
+      <!-- Dark Amber -->
+      <div class="arrival-card fu d2">
+        <div class="arrival-badges"><span class="badge-tag">New</span><span class="badge-tag">Exclusive</span></div>
+        <svg class="arrival-img" viewBox="0 0 100 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="2" width="20" height="8" rx="2" fill="#a07850"/>
+          <rect x="44" y="8" width="12" height="26" rx="2" fill="url(#a1)"/>
+          <rect x="32" y="32" width="36" height="6" rx="2" fill="#7B593D"/>
+          <rect x="14" y="37" width="72" height="132" rx="8" fill="url(#a2)"/>
+          <ellipse cx="50" cy="103" rx="25" ry="46" fill="url(#a3)" opacity="0.45"/>
+          <text x="50" y="95" text-anchor="middle" font-family="serif" font-size="7" font-style="italic" fill="rgba(255,210,140,0.7)" letter-spacing="1">Dark</text>
+          <text x="50" y="108" text-anchor="middle" font-family="serif" font-size="7" font-style="italic" fill="rgba(255,210,140,0.7)" letter-spacing="1">Amber</text>
+          <text x="50" y="122" text-anchor="middle" font-family="sans-serif" font-size="4" fill="rgba(200,150,80,0.5)" letter-spacing="3">BLOOM</text>
+          <defs>
+            <linearGradient id="a1" x1="44" y1="8" x2="56" y2="34" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c9a060"/><stop offset="100%" stop-color="#7B593D"/></linearGradient>
+            <linearGradient id="a2" x1="14" y1="37" x2="86" y2="169" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#7a4010"/><stop offset="40%" stop-color="#a05520"/><stop offset="100%" stop-color="#3a1a05"/></linearGradient>
+            <radialGradient id="a3" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#ffcc80" stop-opacity="0.35"/><stop offset="100%" stop-color="#7B593D" stop-opacity="0"/></radialGradient>
+          </defs>
+        </svg>
+        <div class="arrival-name">Dark Amber</div>
+        <div class="arrival-sub">Eau de Parfum · Warm Spicy Notes</div>
+        <div class="arrival-price">Rs. 4,600</div>
+        <a href="#cta" class="arrival-btn">Shop</a>
+      </div>
+
+      <!-- Pure Musk -->
+      <div class="arrival-card fu d3">
+        <div class="arrival-badges"><span class="badge-tag">New</span><span class="badge-tag">Exclusive</span></div>
+        <svg class="arrival-img" viewBox="0 0 100 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="8" rx="14" ry="7" fill="#9A869B"/>
+          <ellipse cx="50" cy="8" rx="10" ry="5" fill="#c0b0d8"/>
+          <rect x="45" y="12" width="10" height="22" rx="2" fill="url(#m1)"/>
+          <rect x="34" y="32" width="32" height="5" rx="2" fill="#8A769B"/>
+          <rect x="16" y="36" width="68" height="134" rx="10" fill="url(#m2)"/>
+          <ellipse cx="50" cy="103" rx="24" ry="46" fill="url(#m3)" opacity="0.4"/>
+          <text x="50" y="95" text-anchor="middle" font-family="serif" font-size="7" font-style="italic" fill="rgba(206,202,192,0.7)" letter-spacing="1">Pure</text>
+          <text x="50" y="108" text-anchor="middle" font-family="serif" font-size="7" font-style="italic" fill="rgba(206,202,192,0.7)" letter-spacing="1">Musk</text>
+          <text x="50" y="122" text-anchor="middle" font-family="sans-serif" font-size="4" fill="rgba(155,138,176,0.5)" letter-spacing="3">BLOOM</text>
+          <defs>
+            <linearGradient id="m1" x1="45" y1="12" x2="55" y2="34" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c0b0d8"/><stop offset="100%" stop-color="#725D86"/></linearGradient>
+            <linearGradient id="m2" x1="16" y1="36" x2="84" y2="170" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cec8d8"/><stop offset="30%" stop-color="#e8e4f0"/><stop offset="70%" stop-color="#d0c8e0"/><stop offset="100%" stop-color="#a090b8"/></linearGradient>
+            <radialGradient id="m3" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.3"/><stop offset="100%" stop-color="#8A769B" stop-opacity="0"/></radialGradient>
+          </defs>
+        </svg>
+        <div class="arrival-name">Pure Musk</div>
+        <div class="arrival-sub">Eau de Parfum · Clean Soft Notes</div>
+        <div class="arrival-price">Rs. 3,900</div>
+        <a href="#cta" class="arrival-btn">Shop</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- INGREDIENTS -->
+<section class="ingredients" id="ingredients">
+  <div class="sec-head fu">
+    <span class="sec-eyebrow">Fragrance Composition</span>
+    <h2 class="sec-title">Crafted from <em>Nature</em></h2>
+    <div class="sec-divider"></div>
+  </div>
+  <div class="ing-grid">
+    <div class="ing-card fu d1"><span class="ing-emoji">🌹</span><div class="ing-type">Top Note</div><div class="ing-name">Rose & Bergamot</div><div class="ing-desc">First impression — fresh, floral, feminine</div></div>
+    <div class="ing-card fu d2"><span class="ing-emoji">🌿</span><div class="ing-type">Heart Note</div><div class="ing-name">Jasmine & Iris</div><div class="ing-desc">Soul of the fragrance — blooming softly</div></div>
+    <div class="ing-card fu d3"><span class="ing-emoji">🪵</span><div class="ing-type">Base Note</div><div class="ing-name">Oud & Sandalwood</div><div class="ing-desc">Deep and lasting — the memory that stays</div></div>
+    <div class="ing-card fu d4" style="transition-delay:.4s"><span class="ing-emoji">🌙</span><div class="ing-type">Dry Down</div><div class="ing-name">Amber & Musk</div><div class="ing-desc">Final whisper — warm skin, velvety dusk</div></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="sec-head fu">
+    <span class="sec-eyebrow">Customer Love</span>
+    <h2 class="sec-title">Worn with <em>Love</em></h2>
+    <div class="sec-divider"></div>
+  </div>
+  <div class="rev-grid">
+    <div class="rev-card fu d1"><div class="rev-stars">★ ★ ★ ★ ★</div><p class="rev-text">Midnight Rose is hauntingly beautiful. I receive compliments every single time I wear it.</p><div class="rev-author">— Ayesha M., Lahore</div><div class="rev-scent">Wearing: Midnight Rose</div></div>
+    <div class="rev-card fu d2"><div class="rev-stars">★ ★ ★ ★ ★</div><p class="rev-text">Bloom Noir is my signature scent now. Dark, mysterious, utterly addictive perfection.</p><div class="rev-author">— Sara K., Karachi</div><div class="rev-scent">Wearing: Bloom Noir</div></div>
+    <div class="rev-card fu d3"><div class="rev-stars">★ ★ ★ ★ ★</div><p class="rev-text">Velvet Oud is pure luxury. The packaging is exquisite and it lasts beautifully all day.</p><div class="rev-author">— Zainab R., Islamabad</div><div class="rev-scent">Wearing: Velvet Oud</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner">
+    <div class="cta-script fu">find your scent</div>
+    <h2 class="cta-title fu d1">Your Story<br><em>Begins Here</em></h2>
+    <p class="cta-sub fu d2">Handcrafted · Gift-wrapped · Delivered across Pakistan</p>
+    <div class="fu d3"><a href="#collections" class="btn-discover">Shop the Collection</a></div>
+  </div>
+</section>
+
+<!-- FOOTER MARQUEE -->
+<div class="footer-mq">
+  <div class="footer-mq-inner">
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Gift Wrapping for Members</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Complimentary Samples</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Free Shipping on Orders over Rs. 8,000</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Engraving Available</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Gift Boxes</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Gift Wrapping for Members</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Complimentary Samples</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Free Shipping on Orders over Rs. 8,000</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Engraving Available</div>
+    <div class="fmq-item"><span class="fmq-sep">✦</span>Gift Boxes</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Bloom</div>
+  <div class="f-center">© 2025 Bloom Fine Fragrances — All rights reserved</div>
+  <div class="f-links">
+    <a href="#collections">Collections</a>
+    <a href="#ingredients">About</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#cta">Contact</a>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.fu, .fl, .fr');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+  }, { threshold: 0.08 });
+  els.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
