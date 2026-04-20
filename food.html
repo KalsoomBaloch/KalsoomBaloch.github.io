@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scoops & Co. — Artisan Ice Cream</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Pacifico&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink: #FFB5C8;
+      --pink-light: #FFE4EC;
+      --pink-mid: #FF8FAD;
+      --lavender: #C8B5E8;
+      --lavender-light: #EDE4FF;
+      --lavender-mid: #A98FD4;
+      --mint: #B5E8D4;
+      --mint-light: #E4FFF6;
+      --mint-mid: #7DCFB2;
+      --yellow: #FFE5A0;
+      --yellow-mid: #FFD166;
+      --cream: #FFF8F0;
+      --cream2: #FFF0E8;
+      --text: #2d1f2d;
+      --muted: #9a7a9a;
+      --border: rgba(200,181,232,0.25);
+      --font-d: 'Fraunces', serif;
+      --font-b: 'DM Sans', sans-serif;
+      --font-s: 'Pacifico', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--text); font-family: var(--font-b); overflow-x: hidden; }
+
+    /* Polka dot bg */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(200,181,232,0.15) 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 4rem;
+      background: rgba(255,248,240,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--pink-light);
+    }
+    .nav-logo { font-family: var(--font-s); font-size: 1.6rem; color: var(--pink-mid); }
+    .nav-logo span { color: var(--lavender-mid); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { font-size: 0.8rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--pink-mid); }
+    .nav-order { padding: 0.6rem 1.5rem; background: var(--pink-mid); color: white !important; border-radius: 100px; font-weight: 500 !important; transition: all 0.2s !important; box-shadow: 0 4px 15px rgba(255,143,173,0.3); }
+    .nav-order:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,143,173,0.4) !important; background: #ff7a9e !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 6rem 4rem 4rem;
+      gap: 3rem;
+      position: relative; z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Blob backgrounds */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,181,200,0.25), rgba(200,181,232,0.15), transparent 70%);
+      top: -100px; right: -100px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(181,232,212,0.2), transparent 70%);
+      bottom: -50px; left: -50px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--lavender-light);
+      border: 1px solid var(--lavender);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--lavender-mid);
+      margin-bottom: 1.5rem; width: fit-content;
+    }
+
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      font-weight: 900; line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title .line1 { color: var(--text); }
+    .hero-title .line2 { font-style: italic; color: var(--pink-mid); display: block; }
+    .hero-title .line3 { color: var(--lavender-mid); display: block; }
+
+    .hero-desc {
+      font-size: 0.9rem; color: var(--muted);
+      line-height: 1.9; max-width: 420px;
+      margin-bottom: 2.5rem; font-weight: 300;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; margin-bottom: 3rem; }
+    .btn-main {
+      padding: 1rem 2.5rem;
+      background: var(--pink-mid);
+      color: white; border: none;
+      border-radius: 100px;
+      font-family: var(--font-b);
+      font-size: 0.82rem; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(255,143,173,0.35);
+    }
+    .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,143,173,0.4); background: #ff7a9e; }
+    .btn-sec {
+      padding: 1rem 2rem;
+      border: 2px solid var(--lavender);
+      color: var(--lavender-mid);
+      border-radius: 100px;
+      font-size: 0.82rem; font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-sec:hover { background: var(--lavender-light); }
+
+    .hero-stats { display: flex; gap: 2.5rem; }
+    .stat { }
+    .stat-num { font-family: var(--font-d); font-size: 2rem; font-weight: 900; color: var(--text); line-height: 1; }
+    .stat-label { font-size: 0.7rem; color: var(--muted); font-weight: 300; margin-top: 0.2rem; }
+
+    /* Hero right - big scoop illustration */
+    .hero-right { position: relative; display: flex; align-items: center; justify-content: center; }
+
+    .scoop-hero {
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--pink-light), var(--pink), #ffaabf);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12rem;
+      box-shadow: 0 30px 80px rgba(255,143,173,0.3), inset 0 -20px 40px rgba(255,100,150,0.2);
+      animation: heroScoop 4s ease-in-out infinite;
+      position: relative;
+    }
+    @keyframes heroScoop {
+      0%,100%{transform:translateY(0) rotate(-3deg);}
+      50%{transform:translateY(-15px) rotate(3deg);}
+    }
+
+    .hero-badge {
+      position: absolute; top: 20px; right: 0;
+      background: var(--yellow);
+      border-radius: 50%;
+      width: 90px; height: 90px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-shadow: 0 8px 20px rgba(255,209,102,0.4);
+      animation: spin 12s linear infinite;
+    }
+    @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+    .hero-badge-text { font-size: 0.5rem; font-weight: 700; color: var(--text); text-align: center; line-height: 1.3; letter-spacing: 0.05em; text-transform: uppercase; animation: unspin 12s linear infinite; }
+    @keyframes unspin { from{transform:rotate(0deg);} to{transform:rotate(-360deg);} }
+
+    .floating-tags { position: absolute; }
+    .ftag {
+      position: absolute;
+      background: white;
+      border-radius: 100px;
+      padding: 0.5rem 1rem;
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--text);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      white-space: nowrap;
+      animation: tagFloat 3s ease-in-out infinite;
+    }
+    .ftag:nth-child(1) { top: -30px; left: -80px; animation-delay: 0s; }
+    .ftag:nth-child(2) { bottom: 20px; left: -100px; animation-delay: 0.8s; }
+    .ftag:nth-child(3) { top: 60px; right: -90px; animation-delay: 1.5s; }
+    @keyframes tagFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+
+    /* ── MARQUEE ── */
+    .mq {
+      overflow: hidden;
+      background: var(--pink-mid);
+      padding: 0.85rem 0;
+      position: relative; z-index: 1;
+    }
+    .mq-inner { display: flex; gap: 3rem; animation: mqs 20s linear infinite; width: max-content; }
+    .mq-item { font-family: var(--font-s); font-size: 1rem; color: rgba(255,255,255,0.85); white-space: nowrap; display: flex; align-items: center; gap: 1.2rem; }
+    .mq-star { color: var(--yellow); font-size: 0.7rem; }
+    @keyframes mqs { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+    /* ── OUR STORY ── */
+    .story {
+      padding: 7rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .story-visual {
+      position: relative;
+      height: 480px;
+    }
+    .story-blob {
+      width: 85%; height: 420px;
+      background: linear-gradient(135deg, var(--lavender-light), var(--pink-light));
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+      position: absolute; top: 0; left: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9rem;
+      animation: morph 8s ease-in-out infinite;
+      box-shadow: 0 20px 60px rgba(200,181,232,0.2);
+    }
+    @keyframes morph {
+      0%,100%{border-radius:60% 40% 70% 30% / 50% 60% 40% 50%;}
+      33%{border-radius:40% 60% 30% 70% / 60% 40% 60% 40%;}
+      66%{border-radius:70% 30% 50% 50% / 40% 60% 40% 60%;}
+    }
+    .story-blob2 {
+      width: 55%; height: 200px;
+      background: linear-gradient(135deg, var(--mint-light), var(--mint));
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      position: absolute; bottom: 0; right: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      box-shadow: 0 10px 30px rgba(181,232,212,0.3);
+    }
+    .eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink-mid); margin-bottom: 1rem; display: block; }
+    .sec-title { font-family: var(--font-d); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
+    .sec-title em { font-style: italic; color: var(--lavender-mid); }
+    .story-text { font-size: 0.88rem; color: var(--muted); line-height: 2; margin-bottom: 2rem; font-weight: 300; }
+    .story-feats { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+    .story-feat { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid var(--border); transition: all 0.2s; }
+    .story-feat:hover { transform: translateX(6px); border-color: var(--pink); }
+    .sf-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .sf-title { font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+    .sf-text { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── POPULAR FLAVOURS ── */
+    .flavours { padding: 4rem 4rem 7rem; position: relative; z-index: 1; }
+    .flavours-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; }
+    .see-all { font-size: 0.78rem; font-weight: 500; color: var(--pink-mid); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: gap 0.2s; }
+    .see-all:hover { gap: 0.7rem; }
+
+    .flavours-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .flavour-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      position: relative;
+    }
+    .flavour-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+    .flavour-card:nth-child(1) { border-color: var(--pink-light); }
+    .flavour-card:nth-child(1):hover { border-color: var(--pink-mid); }
+    .flavour-card:nth-child(2) { border-color: var(--lavender-light); }
+    .flavour-card:nth-child(2):hover { border-color: var(--lavender-mid); }
+    .flavour-card:nth-child(3) { border-color: var(--mint-light); }
+    .flavour-card:nth-child(3):hover { border-color: var(--mint-mid); }
+    .flavour-card:nth-child(4) { border-color: var(--yellow); }
+    .flavour-card:nth-child(4):hover { border-color: var(--yellow-mid); }
+
+    .flavour-visual {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5.5rem;
+      position: relative;
+    }
+    .flavour-card:nth-child(1) .flavour-visual { background: linear-gradient(135deg, var(--pink-light), #ffd0e0); }
+    .flavour-card:nth-child(2) .flavour-visual { background: linear-gradient(135deg, var(--lavender-light), #ddd0f8); }
+    .flavour-card:nth-child(3) .flavour-visual { background: linear-gradient(135deg, var(--mint-light), #c8f8e8); }
+    .flavour-card:nth-child(4) .flavour-visual { background: linear-gradient(135deg, var(--yellow), #ffe0c0); }
+
+    .flavour-body { padding: 1.2rem 1.5rem 1.5rem; }
+    .flavour-badge { display: inline-block; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 100px; margin-bottom: 0.6rem; }
+    .flavour-card:nth-child(1) .flavour-badge { background: var(--pink-light); color: var(--pink-mid); }
+    .flavour-card:nth-child(2) .flavour-badge { background: var(--lavender-light); color: var(--lavender-mid); }
+    .flavour-card:nth-child(3) .flavour-badge { background: var(--mint-light); color: var(--mint-mid); }
+    .flavour-card:nth-child(4) .flavour-badge { background: var(--yellow); color: #b07000; }
+    .flavour-name { font-family: var(--font-d); font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+    .flavour-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; margin-bottom: 1rem; }
+    .flavour-footer { display: flex; justify-content: space-between; align-items: center; }
+    .flavour-price { font-family: var(--font-d); font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .flavour-add { width: 36px; height: 36px; border-radius: 50%; border: none; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+    .flavour-card:nth-child(1) .flavour-add { background: var(--pink-mid); color: white; }
+    .flavour-card:nth-child(2) .flavour-add { background: var(--lavender-mid); color: white; }
+    .flavour-card:nth-child(3) .flavour-add { background: var(--mint-mid); color: white; }
+    .flavour-card:nth-child(4) .flavour-add { background: var(--yellow-mid); color: white; }
+    .flavour-add:hover { transform: scale(1.15) rotate(90deg); }
+
+    /* ── FEATURE BANNER ── */
+    .feature-banner {
+      margin: 0 4rem 7rem;
+      border-radius: 32px;
+      background: linear-gradient(135deg, #4a2060, #7a3d9a, #5a2d80);
+      padding: 5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      position: relative; overflow: hidden;
+      z-index: 1;
+    }
+    .feature-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(200,181,232,0.2), transparent 60%);
+    }
+    .fb-left { position: relative; z-index: 1; }
+    .fb-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--lavender); margin-bottom: 1rem; display: block; }
+    .fb-title { font-family: var(--font-d); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1; color: white; margin-bottom: 1.2rem; }
+    .fb-title em { font-style: italic; color: var(--pink); }
+    .fb-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.9; margin-bottom: 2rem; font-weight: 300; }
+    .btn-white { padding: 1rem 2.5rem; background: white; color: #4a2060; border: none; border-radius: 100px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.3s; display: inline-block; }
+    .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .fb-right { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
+    .fb-scoop-container { position: relative; }
+    .fb-big-scoop { font-size: 9rem; display: block; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)); animation: heroScoop 4s ease-in-out infinite; }
+    .fb-flavour-tags { position: absolute; display: flex; flex-direction: column; gap: 0.75rem; right: -60px; top: 50%; transform: translateY(-50%); }
+    .fb-ftag { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; padding: 0.4rem 1rem; font-size: 0.7rem; color: white; white-space: nowrap; font-weight: 500; }
+
+    /* ── POPULAR TUBS ── */
+    .tubs { padding: 2rem 4rem 7rem; position: relative; z-index: 1; }
+    .tubs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3.5rem; }
+    .tub-card {
+      border-radius: 24px;
+      overflow: hidden;
+      background: white;
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+    }
+    .tub-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-color: var(--lavender); }
+    .tub-visual { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; font-size: 6rem; }
+    .tub-card:nth-child(1) .tub-visual { background: linear-gradient(135deg, var(--pink-light), #ffc8da); }
+    .tub-card:nth-child(2) .tub-visual { background: linear-gradient(135deg, var(--lavender-light), #d8c8f8); }
+    .tub-card:nth-child(3) .tub-visual { background: linear-gradient(135deg, var(--mint-light), #c0f0e0); }
+    .tub-tag { position: absolute; top: 12px; left: 12px; background: white; border-radius: 100px; padding: 0.25rem 0.75rem; font-size: 0.6rem; font-weight: 600; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .tub-body { padding: 1.5rem; }
+    .tub-name { font-family: var(--font-d); font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+    .tub-flavours { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .tub-price { font-family: var(--font-d); font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 1.2rem; }
+    .tub-btn { display: block; text-align: center; padding: 0.75rem; background: var(--cream2); border-radius: 100px; font-size: 0.78rem; font-weight: 600; color: var(--text); text-decoration: none; transition: all 0.2s; border: 2px solid var(--border); }
+    .tub-btn:hover { background: var(--pink-mid); color: white; border-color: var(--pink-mid); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 6rem 4rem; background: var(--lavender-light); position: relative; z-index: 1; }
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+    .test-card { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 25px rgba(200,181,232,0.15); transition: all 0.3s; position: relative; }
+    .test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(200,181,232,0.2); }
+    .test-card::before { content: '"'; font-family: var(--font-d); font-size: 5rem; color: rgba(200,181,232,0.2); position: absolute; top: 0.5rem; left: 1.5rem; line-height: 1; }
+    .test-stars { color: var(--yellow-mid); font-size: 0.8rem; margin-bottom: 1rem; }
+    .test-text { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; padding-top: 1.5rem; }
+    .test-author { font-size: 0.72rem; font-weight: 600; color: var(--text); }
+    .test-flavour { font-size: 0.65rem; color: var(--pink-mid); margin-top: 0.2rem; }
+
+    /* ── CTA ── */
+    .cta {
+      margin: 4rem;
+      border-radius: 32px;
+      background: linear-gradient(135deg, var(--pink-light), var(--lavender-light), var(--mint-light));
+      padding: 6rem 4rem;
+      text-align: center;
+      position: relative; overflow: hidden; z-index: 1;
+    }
+    .cta::before {
+      content: '🍦🍨🍧🍡🧁🍦';
+      position: absolute; top: -20px; left: 0; right: 0;
+      font-size: 4rem; opacity: 0.08; letter-spacing: 2rem;
+      white-space: nowrap; overflow: hidden;
+    }
+    .cta-title { font-family: var(--font-d); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; color: var(--text); line-height: 1.1; margin-bottom: 1rem; position: relative; }
+    .cta-title em { font-style: italic; color: var(--pink-mid); }
+    .cta-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 2.5rem; position: relative; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; position: relative; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 4rem;
+      border-top: 2px solid var(--pink-light);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--cream);
+    }
+    .f-logo { font-family: var(--font-s); font-size: 1.3rem; color: var(--pink-mid); }
+    .f-logo span { color: var(--lavender-mid); }
+    .f-text { font-size: 0.7rem; color: var(--muted); }
+    .f-links { display: flex; gap: 1.5rem; }
+    .f-links a { font-size: 0.7rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .f-links a:hover { color: var(--pink-mid); }
+
+    /* SCROLL ANIMS */
+    .fu { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fl { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fr { opacity: 0; transform: translateX(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fu.in, .fl.in, .fr.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s} .d4{transition-delay:.4s}
+
+    @media(max-width:900px){
+      nav{padding:1rem 1.5rem;} .nav-links{display:none;}
+      .hero{grid-template-columns:1fr;padding:5rem 1.5rem 3rem;gap:2rem;}
+      .scoop-hero{width:260px;height:260px;font-size:8rem;}
+      .story{grid-template-columns:1fr;padding:4rem 1.5rem;gap:3rem;}
+      .story-visual{height:280px;}
+      .flavours{padding:2rem 1.5rem 4rem;}
+      .flavours-grid{grid-template-columns:1fr 1fr;}
+      .feature-banner{margin:0 1.5rem 4rem;padding:3rem 1.5rem;grid-template-columns:1fr;}
+      .tubs{padding:2rem 1.5rem 4rem;} .tubs-grid{grid-template-columns:1fr;}
+      .test-grid{grid-template-columns:1fr;} .testimonials{padding:4rem 1.5rem;}
+      .cta{margin:1.5rem;padding:4rem 1.5rem;} .cta-btns{flex-direction:column;align-items:center;}
+      footer{flex-direction:column;gap:1rem;padding:2rem 1.5rem;text-align:center;} .f-links{justify-content:center;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Scoops <span>& Co.</span></div>
+  <div class="nav-links">
+    <a href="#flavours">Flavours</a>
+    <a href="#tubs">Tubs</a>
+    <a href="#story">Our Story</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#cta" class="nav-order">Order Now 🍦</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">✨ Freshly Churned Daily</div>
+    <h1 class="hero-title">
+      <span class="line1">Life is</span>
+      <em class="line2">Sweeter</em>
+      <span class="line3">with a Scoop</span>
+    </h1>
+    <p class="hero-desc">Handcrafted artisan ice cream made with the finest ingredients. Every scoop tells a story of passion, flavor, and pure joy — one dreamy bite at a time.</p>
+    <div class="hero-actions">
+      <a href="#flavours" class="btn-main">Explore Flavours 🍦</a>
+      <a href="#story" class="btn-sec">Our Story</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Flavours</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Natural</div></div>
+      <div class="stat"><div class="stat-num">5k+</div><div class="stat-label">Happy Scoops</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="scoop-hero">🍦</div>
+    <div class="hero-badge">
+      <div class="hero-badge-text">Best Seller ★ Summer ★ Hit ★</div>
+    </div>
+    <div class="floating-tags">
+      <div class="ftag">🌸 Rose Lychee</div>
+      <div class="ftag">🫐 Blueberry Dream</div>
+      <div class="ftag">🍋 Lemon Sorbet</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-inner">
+    <div class="mq-item"><span class="mq-star">★</span> Strawberry Swirl</div>
+    <div class="mq-item"><span class="mq-star">★</span> Lavender Honey</div>
+    <div class="mq-item"><span class="mq-star">★</span> Pistachio Dream</div>
+    <div class="mq-item"><span class="mq-star">★</span> Mango Sorbet</div>
+    <div class="mq-item"><span class="mq-star">★</span> Rose Lychee</div>
+    <div class="mq-item"><span class="mq-star">★</span> Mint Choc Chip</div>
+    <div class="mq-item"><span class="mq-star">★</span> Blueberry Cheesecake</div>
+    <div class="mq-item"><span class="mq-star">★</span> Vanilla Bean</div>
+    <div class="mq-item"><span class="mq-star">★</span> Strawberry Swirl</div>
+    <div class="mq-item"><span class="mq-star">★</span> Lavender Honey</div>
+    <div class="mq-item"><span class="mq-star">★</span> Pistachio Dream</div>
+    <div class="mq-item"><span class="mq-star">★</span> Mango Sorbet</div>
+    <div class="mq-item"><span class="mq-star">★</span> Rose Lychee</div>
+    <div class="mq-item"><span class="mq-star">★</span> Mint Choc Chip</div>
+    <div class="mq-item"><span class="mq-star">★</span> Blueberry Cheesecake</div>
+    <div class="mq-item"><span class="mq-star">★</span> Vanilla Bean</div>
+  </div>
+</div>
+
+<!-- POPULAR FLAVOURS -->
+<section class="flavours" id="flavours">
+  <div class="flavours-head">
+    <div>
+      <span class="eyebrow fu">Popular Flavours</span>
+      <h2 class="sec-title fu d1">Fan <em>Favourites</em></h2>
+    </div>
+    <a href="#tubs" class="see-all">See all flavours →</a>
+  </div>
+  <div class="flavours-grid">
+    <div class="flavour-card fu d1">
+      <div class="flavour-visual">🍓</div>
+      <div class="flavour-body">
+        <span class="flavour-badge">Bestseller</span>
+        <div class="flavour-name">Strawberry Swirl</div>
+        <div class="flavour-desc">Fresh strawberries blended into silky cream with a ribbon swirl</div>
+        <div class="flavour-footer">
+          <div class="flavour-price">Rs. 380</div>
+          <button class="flavour-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="flavour-card fu d2">
+      <div class="flavour-visual">💜</div>
+      <div class="flavour-body">
+        <span class="flavour-badge">New</span>
+        <div class="flavour-name">Lavender Honey</div>
+        <div class="flavour-desc">Delicate lavender infused with local honey — floral and dreamy</div>
+        <div class="flavour-footer">
+          <div class="flavour-price">Rs. 420</div>
+          <button class="flavour-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="flavour-card fu d3">
+      <div class="flavour-visual">🌿</div>
+      <div class="flavour-body">
+        <span class="flavour-badge">Popular</span>
+        <div class="flavour-name">Mint Choc Chip</div>
+        <div class="flavour-desc">Cool peppermint ice cream loaded with dark chocolate chips</div>
+        <div class="flavour-footer">
+          <div class="flavour-price">Rs. 360</div>
+          <button class="flavour-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="flavour-card fu d4">
+      <div class="flavour-visual">🥭</div>
+      <div class="flavour-body">
+        <span class="flavour-badge">Summer</span>
+        <div class="flavour-name">Mango Sorbet</div>
+        <div class="flavour-desc">100% real Anwar Ratol mango — pure summer in a scoop</div>
+        <div class="flavour-footer">
+          <div class="flavour-price">Rs. 350</div>
+          <button class="flavour-add">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section class="story" id="story">
+  <div class="story-visual fl">
+    <div class="story-blob">🍨</div>
+    <div class="story-blob2">🌸</div>
+  </div>
+  <div class="fr">
+    <span class="eyebrow">Our Story</span>
+    <h2 class="sec-title">Churned with <em>Love</em></h2>
+    <p class="story-text">Scoops & Co. started in a small kitchen in Karachi where our founder obsessed over creating the perfect scoop. Every flavour is a labour of love — tested dozens of times until it's just right.</p>
+    <div class="story-feats">
+      <div class="story-feat"><div class="sf-icon">🌿</div><div><div class="sf-title">100% Natural Ingredients</div><div class="sf-text">No artificial colours or flavours — ever</div></div></div>
+      <div class="story-feat"><div class="sf-icon">🥛</div><div><div class="sf-title">Fresh Milk Daily</div><div class="sf-text">Sourced from local farms every morning</div></div></div>
+      <div class="story-feat"><div class="sf-icon">🚚</div><div><div class="sf-title">Same-Day Delivery</div><div class="sf-text">Across Karachi — order by 2PM</div></div></div>
+    </div>
+    <a href="#cta" class="btn-main">Order Now 🍦</a>
+  </div>
+</section>
+
+<!-- FEATURE BANNER -->
+<div class="feature-banner">
+  <div class="fb-left">
+    <span class="fb-eyebrow">Limited Edition</span>
+    <h2 class="fb-title">The <em>Dreamy</em><br>Collection</h2>
+    <p class="fb-text">Our most-loved seasonal flavours, now available in beautiful gift tubs. Perfect for gifting or treating yourself to something special.</p>
+    <a href="#tubs" class="btn-white">Shop Collection</a>
+  </div>
+  <div class="fb-right">
+    <div class="fb-scoop-container">
+      <span class="fb-big-scoop">🍧</span>
+      <div class="fb-flavour-tags">
+        <div class="fb-ftag">🌸 Rose Lychee</div>
+        <div class="fb-ftag">💜 Lavender Honey</div>
+        <div class="fb-ftag">🫐 Berry Bliss</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TUBS -->
+<section class="tubs" id="tubs">
+  <div class="fu">
+    <span class="eyebrow">Popular Products</span>
+    <h2 class="sec-title">Our <em>Tubs</em></h2>
+  </div>
+  <div class="tubs-grid">
+    <div class="tub-card fu d1">
+      <div class="tub-visual">
+        <div class="tub-tag">Bestseller</div>
+        🍓
+      </div>
+      <div class="tub-body">
+        <div class="tub-name">Berry Bliss Tub</div>
+        <div class="tub-flavours">Strawberry · Raspberry · Blueberry</div>
+        <div class="tub-price">Rs. 1,200 · 500mL</div>
+        <a href="#cta" class="tub-btn">Add to Order</a>
+      </div>
+    </div>
+    <div class="tub-card fu d2">
+      <div class="tub-visual">
+        <div class="tub-tag">New</div>
+        💜
+      </div>
+      <div class="tub-body">
+        <div class="tub-name">Dreamy Lavender Tub</div>
+        <div class="tub-flavours">Lavender · Honey · Vanilla</div>
+        <div class="tub-price">Rs. 1,350 · 500mL</div>
+        <a href="#cta" class="tub-btn">Add to Order</a>
+      </div>
+    </div>
+    <div class="tub-card fu d3">
+      <div class="tub-visual">
+        <div class="tub-tag">Summer Special</div>
+        🥭
+      </div>
+      <div class="tub-body">
+        <div class="tub-name">Tropical Sorbet Tub</div>
+        <div class="tub-flavours">Mango · Passion Fruit · Lime</div>
+        <div class="tub-price">Rs. 1,100 · 500mL</div>
+        <a href="#cta" class="tub-btn">Add to Order</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="fu" style="text-align:center;">
+    <span class="eyebrow">Happy Customers</span>
+    <h2 class="sec-title">Scooped with <em>Joy</em></h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card fu d1">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">The Lavender Honey is unlike anything I've tasted. Creamy, dreamy and absolutely perfect. I order every week!</p>
+      <div class="test-author">— Amna S., Karachi</div>
+      <div class="test-flavour">Favourite: Lavender Honey 💜</div>
+    </div>
+    <div class="test-card fu d2">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">Best ice cream in the city, hands down. The Mango Sorbet tastes like real mango — not that artificial stuff. So good!</p>
+      <div class="test-author">— Hira K., Karachi</div>
+      <div class="test-flavour">Favourite: Mango Sorbet 🥭</div>
+    </div>
+    <div class="test-card fu d3">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">Ordered the Berry Bliss tub for my daughter's birthday and the whole family finished it in one sitting. Highly recommend!</p>
+      <div class="test-author">— Zara M., Karachi</div>
+      <div class="test-flavour">Favourite: Berry Bliss Tub 🍓</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <h2 class="cta-title fu">Ready for Your<br>Next <em>Scoop?</em></h2>
+  <p class="cta-sub fu d1">Order before 2PM for same-day delivery across Karachi · Gift tubs available · 100% natural</p>
+  <div class="cta-btns fu d2">
+    <a href="#flavours" class="btn-main">Order Now 🍦</a>
+    <a href="#tubs" class="btn-sec">Shop Tubs</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Scoops <span>& Co.</span></div>
+  <div class="f-text">© 2025 Scoops & Co. — Made with 🍦 in Karachi</div>
+  <div class="f-links">
+    <a href="#flavours">Flavours</a>
+    <a href="#tubs">Tubs</a>
+    <a href="#story">About</a>
+    <a href="#cta">Order</a>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.fu, .fl, .fr');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+  }, { threshold: 0.08 });
+  els.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
