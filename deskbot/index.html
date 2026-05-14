@@ -768,7 +768,7 @@
           <li>Email support</li>
           <li>1 language</li>
         </ul>
-<button class="price-btn price-btn-outline" onclick="window.open('https://wa.me/923208469523?text=Hi, I am interested in the DeskBot Pro Plan!'); onclick="window.location.href='mailto:kalsoomfareedbaloch@gmail.com?subject=DeskBot Basic Plan'">Get Started</button>
+<button class="price-btn price-btn-outline" onclick="openContact('Basic Plan')">Get Started</button>
       </div>
       
       <div class="price-card featured">
@@ -784,7 +784,7 @@
           <li>5 languages</li>
           <li>Priority support</li>
         </ul>
-<button class="price-btn price-btn-filled" onclick="window.open('https://wa.me/923208469523?text=Hi, I am interested in the DeskBot Pro Plan!'); window.location.href='mailto:kalsoomfareedbaloch@gmail.com?subject=DeskBot Pro Plan'">Get Started</button>
+<button class="price-btn price-btn-filled" onclick="openContact('Pro Plan')">Get Started</button>
       </div>        
         
       <div class="price-card">
@@ -800,8 +800,8 @@
           <li>All languages</li>
           <li>SLA guarantee</li>
         </ul>
-<button class="price-btn price-btn-outline" onclick="window.open('https://wa.me/923208469523?text=Hi, I am interested in DeskBot Enterprise!'); window.location.href='mailto:kalsoomfareedbaloch@gmail.com?subject=DeskBot Enterprise Inquiry'">Contact Us</button>      </div>
-    </div>
+<button class="price-btn price-btn-outline" onclick="openContact('Enterprise Plan')">Contact Us</button>
+      </div>
   </div>
 </section>
 
@@ -899,6 +899,34 @@ function sendSuggestion(btn) {
   document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
   setTimeout(() => sendMessage(), 400);
 }
+</script>
+  <!-- Contact Modal -->
+<div id="contact-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#FAF7F2; border-radius:20px; padding:2rem; width:90%; max-width:380px; text-align:center;">
+    <h3 style="font-family:'Lora',serif; font-size:1.3rem; color:#2A1F16; margin-bottom:0.5rem;">Get in touch</h3>
+    <p id="modal-plan" style="font-family:'DM Sans',sans-serif; font-size:0.85rem; color:#9A8070; margin-bottom:1.8rem;"></p>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <a id="modal-wa" href="#" target="_blank" style="background:#25D366; color:white; padding:12px; border-radius:100px; text-decoration:none; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:500;">💬 WhatsApp</a>
+      <a id="modal-email" href="#" style="background:transparent; color:#2A1F16; border:1px solid rgba(107,76,53,0.2); padding:12px; border-radius:100px; text-decoration:none; font-family:'DM Sans',sans-serif; font-size:0.9rem;">📧 Email</a>
+      <button onclick="closeContact()" style="background:none; border:none; color:#9A8070; font-size:0.85rem; cursor:pointer; margin-top:4px; font-family:'DM Sans',sans-serif;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openContact(plan) {
+  document.getElementById('modal-plan').textContent = "You're interested in the " + plan + ". Choose how to reach us:";
+  document.getElementById('modal-wa').href = 'https://wa.me/923208469523?text=Hi, I am interested in DeskBot ' + plan + '!';
+  document.getElementById('modal-email').href = 'mailto:kalsoomfareedbaloch@gmail.com?subject=DeskBot ' + plan;
+  const modal = document.getElementById('contact-modal');
+  modal.style.display = 'flex';
+}
+function closeContact() {
+  document.getElementById('contact-modal').style.display = 'none';
+}
+document.getElementById('contact-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeContact();
+});
 </script>
 </body>
 </html>
