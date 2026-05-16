@@ -425,6 +425,18 @@
     <div class="footer-text">© 2025 Kalsoom Baloch — All rights reserved</div>
     <div class="footer-text">Built with passion 💙</div>
   </footer>
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+  observer.observe(el);
+});
+</script>
 </body>
 </html>
