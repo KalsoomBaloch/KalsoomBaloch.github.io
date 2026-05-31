@@ -1,0 +1,842 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/qP92I854cffn1YN6OV8kTyANlFaH9bZ4/f27fcecc-0601-429c-99c7-ac1d24e0c055/files/">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kalsoom Baloch — Frontend Developer & AI Builder</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          display: ['"Space Grotesk"', 'sans-serif'],
+          mono: ['"Fira Code"', 'monospace'],
+        },
+        colors: {
+          dark: {
+            950: '#060609',
+            900: '#0B0B14',
+            800: '#111122',
+            700: '#1D1D35',
+            600: '#2A2A4E',
+          },
+          neon: {
+            purple: '#A855F7',
+            cyan: '#06B6D4',
+            pink: '#EC4899',
+            green: '#22C55E',
+          }
+        },
+        animation: {
+          'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          'float': 'float 6s ease-in-out infinite',
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  /* Custom Animations & Glow Effects */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .glow-purple:hover {
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+    border-color: rgba(168, 85, 247, 0.8);
+  }
+
+  .glow-cyan:hover {
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
+    border-color: rgba(6, 182, 212, 0.8);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #060609;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1D1D35;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #A855F7;
+  }
+
+  /* Custom text selection */
+  ::selection {
+    background: rgba(168, 85, 247, 0.3);
+    color: #ffffff;
+  }
+
+  /* Reveal animations */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Glassmorphism Classes */
+  .glass-card {
+    background: rgba(17, 17, 34, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-nav {
+    background: rgba(6, 6, 9, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Noise Overlay */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+</style>
+</head>
+<body class="bg-dark-950 text-slate-100 font-sans overflow-x-hidden relative selection:bg-neon-purple selection:text-white">
+
+<!-- Noise Background -->
+<div class="noise-overlay"></div>
+
+<!-- Interactive Particles Background -->
+<canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+<!-- Top Glowing Accents -->
+<div class="absolute top-[-10%] left-[10%] w-[35rem] h-[35rem] rounded-full bg-neon-purple/10 blur-[150px] pointer-events-none z-0"></div>
+<div class="absolute top-[20%] right-[-5%] w-[40rem] h-[40rem] rounded-full bg-neon-cyan/5 blur-[180px] pointer-events-none z-0"></div>
+<div class="absolute bottom-[10%] left-[-10%] w-[35rem] h-[35rem] rounded-full bg-neon-pink/5 blur-[150px] pointer-events-none z-0"></div>
+
+<!-- Navigation Header -->
+<header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Brand Logo -->
+    <a href="#" class="group flex items-center gap-2 font-display text-xl font-bold tracking-tight">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-neon-purple via-neon-pink to-neon-cyan group-hover:opacity-80 transition-opacity">
+        KB<span class="text-neon-cyan">.</span>
+      </span>
+      <span class="text-xs font-mono px-2 py-0.5 rounded border border-white/10 text-white/50 bg-white/5 group-hover:border-neon-purple/50 transition-colors">v2.0</span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-widest text-slate-400">
+      <a href="#about" class="hover:text-neon-purple transition-colors flex items-center gap-1.5"><span class="text-neon-purple font-bold">01.</span> ABOUT</a>
+      <a href="#projects" class="hover:text-neon-cyan transition-colors flex items-center gap-1.5"><span class="text-neon-cyan font-bold">02.</span> PROJECTS</a>
+      <a href="#contact" class="hover:text-neon-pink transition-colors flex items-center gap-1.5"><span class="text-neon-pink font-bold">03.</span> CONTACT</a>
+    </nav>
+
+    <!-- Call to Action Button / Menu Trigger -->
+    <div class="flex items-center gap-4">
+      <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 border border-neon-purple/30 text-neon-purple hover:bg-neon-purple/10 text-xs font-mono rounded tracking-wider transition-all duration-300">
+        <i data-lucide="terminal" class="w-3.5 h-3.5"></i> HIRE ME
+      </a>
+      <button id="menu-btn" class="md:hidden text-slate-300 hover:text-white transition-colors" aria-label="Toggle Menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="hidden absolute top-full left-0 w-full glass-nav border-t border-white/5 flex flex-col p-6 gap-4 font-mono text-sm">
+    <a href="#about" class="hover:text-neon-purple py-2 border-b border-white/5 flex items-center gap-2"><span class="text-neon-purple">01.</span> ABOUT</a>
+    <a href="#projects" class="hover:text-neon-cyan py-2 border-b border-white/5 flex items-center gap-2"><span class="text-neon-cyan">02.</span> PROJECTS</a>
+    <a href="#contact" class="hover:text-neon-pink py-2 flex items-center gap-2"><span class="text-neon-pink">03.</span> CONTACT</a>
+    <a href="mailto:kalsoomfareedbaloch@gmail.com" class="mt-2 text-center py-3 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded font-semibold text-xs tracking-wide">
+      SEND AN EMAIL
+    </a>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section id="hero" class="min-height-[100vh] pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col justify-center relative z-10">
+  <div class="space-y-6">
+    <!-- Availability Badge -->
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card border-neon-green/20 text-xs font-mono text-neon-green tracking-wider uppercase animate-pulse-slow">
+      <span class="w-2 h-2 rounded-full bg-neon-green shadow-[0_0_8px_#22C55E]"></span>
+      Available for Freelance & Projects
+    </div>
+
+    <!-- Intro and Main Headings -->
+    <div class="space-y-2">
+      <p class="text-neon-purple font-mono text-sm tracking-widest uppercase">Hi, my name is</p>
+      <h1 class="text-5xl md:text-8xl font-extrabold font-display tracking-tight leading-none text-white">
+        Kalsoom Baloch<span class="text-neon-purple animate-pulse">_</span>
+      </h1>
+      <h2 class="text-3xl md:text-6xl font-extrabold font-display tracking-tight text-slate-400">
+        I engineer high-performance web.
+      </h2>
+    </div>
+
+    <!-- Typing Text Subtitle -->
+    <div class="h-8 font-mono text-sm md:text-lg text-neon-cyan flex items-center gap-1.5">
+      <i data-lucide="terminal" class="w-4 h-4 md:w-5 md:h-5"></i>
+      <span id="typing-text" class="border-r-2 border-neon-cyan pr-1"></span>
+    </div>
+
+    <!-- Brief Bio -->
+    <p class="max-w-xl text-slate-400 text-sm md:text-base leading-relaxed">
+      A computer science student and developer building production-grade web solutions. I specialize in crafting clean user interfaces, deploying scalable AI applications, and integrating complex APIs.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap gap-4 pt-4">
+      <a href="#projects" class="px-6 py-3.5 bg-gradient-to-r from-neon-purple to-neon-pink hover:from-neon-purple hover:to-neon-purple text-white font-mono text-xs tracking-wider uppercase rounded font-bold shadow-lg shadow-neon-purple/20 transition-all duration-300 transform hover:-translate-y-1">
+        Explore Work <i data-lucide="arrow-right" class="inline w-3.5 h-3.5 ml-1"></i>
+      </a>
+      <a href="https://github.com/KalsoomBaloch" target="_blank" class="px-6 py-3.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-neon-cyan/50 text-slate-300 hover:text-white font-mono text-xs tracking-wider uppercase rounded transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-1">
+        <i data-lucide="github" class="w-4 h-4"></i> GitHub Profile ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- Smooth Scroll Indicator -->
+  <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2">
+    <span class="text-[10px] font-mono tracking-widest text-slate-500 uppercase">Scroll Down</span>
+    <div class="w-6 h-10 rounded-full border-2 border-slate-700 p-1 flex justify-center">
+      <div class="w-1.5 h-2.5 bg-neon-purple rounded-full animate-bounce"></div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-24 px-6 max-w-7xl mx-auto relative z-10 border-t border-white/5">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    
+    <!-- About Text Content -->
+    <div class="lg:col-span-7 space-y-6 reveal-on-scroll">
+      <div class="flex items-center gap-3">
+        <span class="font-mono text-neon-purple text-sm font-bold">01.</span>
+        <h2 class="text-2xl md:text-4xl font-extrabold font-display text-white">About Me</h2>
+        <div class="h-px flex-grow bg-gradient-to-r from-neon-purple/50 to-transparent"></div>
+      </div>
+
+      <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+        CS student and self-driven developer based in Lahore, Pakistan. I construct modern digital experiences by merging crisp, clean code with elegant interface design. I thrive on problem-solving, building AI-powered tools, and optimizing full-stack architectures.
+      </p>
+
+      <!-- Key details -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+        <div class="p-4 rounded-lg bg-dark-900 border border-white/5 flex items-center gap-3">
+          <i data-lucide="user" class="text-neon-purple w-5 h-5"></i>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-mono">Name</div>
+            <div class="text-sm font-semibold text-slate-200">Kalsoom Baloch</div>
+          </div>
+        </div>
+        <div class="p-4 rounded-lg bg-dark-900 border border-white/5 flex items-center gap-3">
+          <i data-lucide="map-pin" class="text-neon-cyan w-5 h-5"></i>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-mono">Location</div>
+            <div class="text-sm font-semibold text-slate-200">Lahore, Pakistan</div>
+          </div>
+        </div>
+        <div class="p-4 rounded-lg bg-dark-900 border border-white/5 flex items-center gap-3">
+          <i data-lucide="graduation-cap" class="text-neon-pink w-5 h-5"></i>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-mono">Education</div>
+            <div class="text-sm font-semibold text-slate-200">Computer Science</div>
+          </div>
+        </div>
+        <div class="p-4 rounded-lg bg-dark-900 border border-white/5 flex items-center gap-3">
+          <i data-lucide="briefcase" class="text-neon-purple w-5 h-5"></i>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-mono">Status</div>
+            <div class="text-sm font-semibold text-neon-green">Available for Freelance</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Display -->
+      <div class="space-y-4 pt-4">
+        <h3 class="text-sm font-mono text-slate-300 uppercase tracking-widest">Technologies & Toolkit</h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">HTML & CSS</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">JavaScript</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">React</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">PHP / MySQL</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Python</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Gemini & Claude API</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Groq API</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Vercel</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Git / GitHub</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Prompt Engineering</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">Tailwind CSS</span>
+          <span class="px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:border-neon-purple/50 hover:bg-neon-purple/10 text-slate-300 font-mono text-xs transition-all cursor-default">UI/UX Design</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Visual / Stats -->
+    <div class="lg:col-span-5 grid grid-cols-2 gap-4 reveal-on-scroll">
+      <div class="glass-card hover:border-neon-purple/40 hover:bg-neon-purple/5 p-6 rounded-xl flex flex-col justify-between transition-all duration-300 group transform hover:-translate-y-1">
+        <div class="text-4xl font-extrabold font-display text-neon-purple group-hover:scale-105 transition-transform">6+</div>
+        <div>
+          <div class="font-mono text-xs text-white uppercase tracking-wider">Projects</div>
+          <div class="text-xs text-slate-400 mt-1">Successfully deployed</div>
+        </div>
+      </div>
+
+      <div class="glass-card hover:border-neon-cyan/40 hover:bg-neon-cyan/5 p-6 rounded-xl flex flex-col justify-between transition-all duration-300 group transform hover:-translate-y-1">
+        <div class="text-4xl font-extrabold font-display text-neon-cyan group-hover:scale-105 transition-transform">SaaS</div>
+        <div>
+          <div class="font-mono text-xs text-white uppercase tracking-wider">AI Integration</div>
+          <div class="text-xs text-slate-400 mt-1">Chatbots & LLM pipelines</div>
+        </div>
+      </div>
+
+      <div class="glass-card hover:border-neon-pink/40 hover:bg-neon-pink/5 p-6 rounded-xl flex flex-col justify-between transition-all duration-300 group transform hover:-translate-y-1">
+        <div class="text-4xl font-extrabold font-display text-neon-pink group-hover:scale-105 transition-transform">5+</div>
+        <div>
+          <div class="font-mono text-xs text-white uppercase tracking-wider">Landing Pages</div>
+          <div class="text-xs text-slate-400 mt-1">Pixel-perfect builds</div>
+        </div>
+      </div>
+
+      <div class="glass-card hover:border-neon-green/40 hover:bg-neon-green/5 p-6 rounded-xl flex flex-col justify-between transition-all duration-300 group transform hover:-translate-y-1">
+        <div class="text-4xl font-extrabold font-display text-neon-green group-hover:scale-105 transition-transform">100%</div>
+        <div>
+          <div class="font-mono text-xs text-white uppercase tracking-wider">Live</div>
+          <div class="text-xs text-slate-400 mt-1">Hosted & active sites</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="py-24 px-6 max-w-7xl mx-auto relative z-10 border-t border-white/5">
+  <div class="space-y-12">
+    <!-- Section Heading & Tab Filtering -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 reveal-on-scroll">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-neon-cyan text-sm font-bold">02.</span>
+          <h2 class="text-2xl md:text-4xl font-extrabold font-display text-white">Featured Creations</h2>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm">
+          A handpicked gallery of my latest development, UI design, and AI integrations.
+        </p>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="inline-flex p-1 rounded-lg bg-dark-900 border border-white/5">
+        <button onclick="filterProjects('all')" id="tab-all" class="px-4 py-2 rounded-md font-mono text-xs tracking-wider uppercase font-semibold text-white bg-neon-purple/20 transition-all">All</button>
+        <button onclick="filterProjects('ai')" id="tab-ai" class="px-4 py-2 rounded-md font-mono text-xs tracking-wider uppercase font-semibold text-slate-400 hover:text-white transition-all">AI & Web Apps</button>
+        <button onclick="filterProjects('ui')" id="tab-ui" class="px-4 py-2 rounded-md font-mono text-xs tracking-wider uppercase font-semibold text-slate-400 hover:text-white transition-all">UI & Design</button>
+      </div>
+    </div>
+
+    <!-- Active Projects Container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <!-- Project 1: DeskBot (AI & Web Apps) -->
+      <div class="project-item glass-card rounded-2xl overflow-hidden border border-white/10 hover:border-neon-purple/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group" data-category="ai">
+        <div>
+          <!-- Card visual header with live simulation -->
+          <div class="bg-gradient-to-r from-dark-900 to-indigo-950 p-6 border-b border-white/5 relative overflow-hidden min-h-[180px] flex flex-col justify-between">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-xs font-mono px-2 py-1 rounded bg-neon-purple/10 border border-neon-purple/20 text-neon-purple">AI SaaS PRODUCT</span>
+              <span class="flex items-center gap-1.5 text-[10px] font-mono text-neon-green uppercase tracking-wider"><span class="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse"></span> Active SaaS</span>
+            </div>
+            
+            <!-- Animated chatbot bubbles -->
+            <div class="space-y-2 w-11/12 z-10 my-4">
+              <div class="text-[10px] font-mono bg-white/5 border border-white/10 rounded-lg p-2 max-w-[85%] text-slate-300">
+                Do you have 2-bed listings in DHA Phase 6?
+              </div>
+              <div class="text-[10px] font-mono bg-neon-purple/10 border border-neon-purple/20 rounded-lg p-2 max-w-[85%] text-neon-purple ml-auto text-right">
+                Yes! 3 premium units are available from PKR 45k/mo ✓
+              </div>
+            </div>
+            <div class="absolute bottom-2 right-2 opacity-5 text-neon-purple"><i data-lucide="bot" class="w-24 h-24"></i></div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold font-display text-white group-hover:text-neon-purple transition-colors">DeskBot — AI Assistant SaaS</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              A robust AI assistant that answers business queries, trained on custom data. Ideal for real estate, e-commerce, clinics, and service providers. A secure Vercel proxy protects corporate API keys from exposure.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Groq API</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Claude API</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Vercel Proxy</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">SaaS Blueprint</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0 flex gap-3">
+          <a href="/deskbot" class="flex-grow text-center py-2.5 bg-neon-purple/20 hover:bg-neon-purple text-neon-purple hover:text-white font-mono text-xs rounded border border-neon-purple/30 transition-all duration-300">
+            Launch Demo <i data-lucide="external-link" class="inline w-3.5 h-3.5 ml-1"></i>
+          </a>
+          <a href="mailto:kalsoomfareedbaloch@gmail.com?subject=DeskBot Inquiry" class="p-2.5 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 rounded transition-all" title="Enquire about DeskBot">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 2: 1v1 Earth (AI & Web Apps) -->
+      <div class="project-item glass-card rounded-2xl overflow-hidden border border-white/10 hover:border-neon-cyan/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group" data-category="ai">
+        <div>
+          <!-- Card visual header -->
+          <div class="bg-gradient-to-r from-dark-900 to-cyan-950 p-6 border-b border-white/5 relative overflow-hidden min-h-[180px] flex flex-col justify-between">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-xs font-mono px-2 py-1 rounded bg-neon-cyan/10 border border-neon-cyan/20 text-neon-cyan">INTERACTIVE MULTIPLAYER</span>
+              <span class="text-[10px] font-mono text-neon-cyan">🌍 Live Rankings</span>
+            </div>
+            
+            <div class="text-center my-4 z-10">
+              <div class="text-4xl">🌎 ⚔️ 🌍</div>
+              <div class="text-xs font-mono text-white/50 mt-1 uppercase tracking-widest">Global Duel Platform</div>
+            </div>
+            <div class="absolute bottom-2 right-2 opacity-5 text-neon-cyan"><i data-lucide="swords" class="w-24 h-24"></i></div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold font-display text-white group-hover:text-neon-cyan transition-colors">1v1 Earth — Global Gaming Platform</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              A multiplayer global gaming arena where players go head-to-head. Tracks wins with XP systems, updates real-time global leaderboards, and detects users' flags via integrated country-IP API lookups.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">React</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Real-time DB</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">IP Flag Match</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Lovable</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0 flex gap-3">
+          <a href="https://global-duel-quest.lovable.app" target="_blank" class="flex-grow text-center py-2.5 bg-neon-cyan/20 hover:bg-neon-cyan text-neon-cyan hover:text-dark-950 font-mono text-xs rounded border border-neon-cyan/30 transition-all duration-300 font-bold">
+            ⚡ Play Now <i data-lucide="external-link" class="inline w-3.5 h-3.5 ml-1"></i>
+          </a>
+          <a href="https://github.com/KalsoomBaloch/1v1-Earth" target="_blank" class="p-2.5 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 rounded transition-all" title="Source Code">
+            <i data-lucide="github" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 3: Ledger Finance Tracker (AI & Web Apps) -->
+      <div class="project-item glass-card rounded-2xl overflow-hidden border border-white/10 hover:border-neon-pink/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group" data-category="ai">
+        <div>
+          <div class="bg-gradient-to-r from-dark-900 to-pink-950 p-6 border-b border-white/5 relative overflow-hidden min-h-[180px] flex flex-col justify-between">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-xs font-mono px-2 py-1 rounded bg-neon-pink/10 border border-neon-pink/20 text-neon-pink">FINANCIAL dashboard</span>
+              <span class="text-[10px] font-mono text-neon-pink">📊 Data-driven</span>
+            </div>
+            
+            <div class="text-center my-4 z-10">
+              <div class="text-4xl">💰 📈</div>
+              <div class="text-xs font-mono text-white/50 mt-1 uppercase tracking-widest">Personal Ledger tracker</div>
+            </div>
+            <div class="absolute bottom-2 right-2 opacity-5 text-neon-pink"><i data-lucide="bar-chart-2" class="w-24 h-24"></i></div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold font-display text-white group-hover:text-neon-pink transition-colors">Ledger — Finance Tracker</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Personal finance assistant featuring full CRUD tracking, categorizations, persistent localStorage saves, and interactive balance sheets powered by Chart.js.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">JavaScript</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Chart.js</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">LocalStorage</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">UI design</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0">
+          <a href="https://kalsoombaloch.github.io/finance-tracker" target="_blank" class="w-full block text-center py-2.5 bg-neon-pink/20 hover:bg-neon-pink text-neon-pink hover:text-white font-mono text-xs rounded border border-neon-pink/30 transition-all duration-300">
+            View Analytics <i data-lucide="external-link" class="inline w-3.5 h-3.5 ml-1"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 4: Lunette Nova (UI/Landing Pages) -->
+      <div class="project-item glass-card rounded-2xl overflow-hidden border border-white/10 hover:border-neon-purple/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group" data-category="ui">
+        <div>
+          <div class="bg-gradient-to-r from-dark-900 to-purple-950 p-6 border-b border-white/5 relative overflow-hidden min-h-[180px] flex flex-col justify-between">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-xs font-mono px-2 py-1 rounded bg-neon-purple/10 border border-neon-purple/20 text-neon-purple">JEWELLERY BRAND BRANDING</span>
+              <span class="text-[10px] font-mono text-neon-purple">✨ Celestial Theme</span>
+            </div>
+            
+            <div class="text-center my-4 z-10">
+              <div class="text-4xl">🌙 💎</div>
+              <div class="text-xs font-mono text-white/50 mt-1 uppercase tracking-widest">E-COMMERCE SHOWCASE</div>
+            </div>
+            <div class="absolute bottom-2 right-2 opacity-5 text-neon-purple"><i data-lucide="sparkles" class="w-24 h-24"></i></div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold font-display text-white group-hover:text-neon-purple transition-colors">Lunette Nova — Jewellery Brand</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              An elegant, fully-featured luxury jewelry storefront landing page. Incorporates 18+ high-definition products, a mystical aesthetic layout, and Instagram grid feeds.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Tailwind CSS</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Interactive UI</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Social Embeds</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0">
+          <a href="lunette_nova.html" target="_blank" class="w-full block text-center py-2.5 bg-neon-purple/20 hover:bg-neon-purple text-neon-purple hover:text-white font-mono text-xs rounded border border-neon-purple/30 transition-all duration-300">
+            Inspect Landing Page <i data-lucide="external-link" class="inline w-3.5 h-3.5 ml-1"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 5: The Bound Page (UI/Landing Pages) -->
+      <div class="project-item glass-card rounded-2xl overflow-hidden border border-white/10 hover:border-neon-cyan/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group" data-category="ui">
+        <div>
+          <div class="bg-gradient-to-r from-dark-900 to-cyan-950 p-6 border-b border-white/5 relative overflow-hidden min-h-[180px] flex flex-col justify-between">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-xs font-mono px-2 py-1 rounded bg-neon-cyan/10 border border-neon-cyan/20 text-neon-cyan">LITERARY BOOKSTORE</span>
+              <span class="text-[10px] font-mono text-neon-cyan">📚 Pastel Cozy</span>
+            </div>
+            
+            <div class="text-center my-4 z-10">
+              <div class="text-4xl">📖 ☕</div>
+              <div class="text-xs font-mono text-white/50 mt-1 uppercase tracking-widest">E-COMMERCE CONCEPT</div>
+            </div>
+            <div class="absolute bottom-2 right-2 opacity-5 text-neon-cyan"><i data-lucide="book-open" class="w-24 h-24"></i></div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold font-display text-white group-hover:text-neon-cyan transition-colors">The Bound Page — Cozy Bookstore</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Warm, pastel bookstore UI showing featured bestseller covers, verified customer reviews, dynamic newsletter prompts, and search filters.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Responsive HTML</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Newsletter Form</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Cozy Design</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0">
+          <a href="bookstore.html" target="_blank" class="w-full block text-center py-2.5 bg-neon-cyan/20 hover:bg-neon-cyan text-neon-cyan hover:text-dark-950 font-mono text-xs rounded border border-neon-cyan/30 transition-all duration-300 font-bold">
+            Explore Bookstore <i data-lucide="external-link" class="inline w-3.5 h-3.5 ml-1"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 6: Bloom Perfume Brand (UI/Landing Pages) -->
+      <div class="project-item glass-card rounded-2xl overflow-hidden border border-white/10 hover:border-neon-pink/40 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group" data-category="ui">
+        <div>
+          <div class="bg-gradient-to-r from-dark-900 to-pink-950 p-6 border-b border-white/5 relative overflow-hidden min-h-[180px] flex flex-col justify-between">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-xs font-mono px-2 py-1 rounded bg-neon-pink/10 border border-neon-pink/20 text-neon-pink">COSMETICS SHOWCASE</span>
+              <span class="text-[10px] font-mono text-neon-pink">🌸 Dark Floral Luxury</span>
+            </div>
+            
+            <div class="text-center my-4 z-10">
+              <div class="text-4xl">🌸 🧴</div>
+              <div class="text-xs font-mono text-white/50 mt-1 uppercase tracking-widest">PRODUCT PRESENTATION</div>
+            </div>
+            <div class="absolute bottom-2 right-2 opacity-5 text-neon-pink"><i data-lucide="flower" class="w-24 h-24"></i></div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold font-display text-white group-hover:text-neon-pink transition-colors">Bloom — Luxury Perfume Boutique</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              High-end luxury cosmetic presentation with dark floral aesthetics, product details, ingredients grid, and smooth interactive design overlays.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Aesthetic Layout</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">Responsive Grid</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-900 border border-white/5 text-slate-400">CSS Effects</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0">
+          <a href="beauty.html" target="_blank" class="w-full block text-center py-2.5 bg-neon-pink/20 hover:bg-neon-pink text-neon-pink hover:text-white font-mono text-xs rounded border border-neon-pink/30 transition-all duration-300">
+            Open Boutique <i data-lucide="external-link" class="inline w-3.5 h-3.5 ml-1"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-24 px-6 max-w-5xl mx-auto relative z-10 border-t border-white/5 text-center">
+  <div class="space-y-8 reveal-on-scroll">
+    <p class="text-neon-pink font-mono text-xs uppercase tracking-widest">// Connection Center</p>
+    
+    <h2 class="text-4xl md:text-7xl font-extrabold font-display text-white leading-none tracking-tight">
+      Let's Design <br><span class="bg-clip-text text-transparent bg-gradient-to-r from-neon-purple via-neon-pink to-neon-cyan">The Future.</span>
+    </h2>
+
+    <p class="text-slate-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
+      I'm currently accepting freelance projects, partnerships, and collaborations. If you're looking for clean code, responsive structures, and cutting-edge design, let's connect!
+    </p>
+
+    <!-- Glowing Action Contacts -->
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-xl mx-auto pt-6">
+      
+      <!-- Interactive Copy Email Card -->
+      <button onclick="copyEmailToClipboard()" class="w-full sm:w-auto flex items-center justify-between gap-3 px-6 py-4 rounded-xl bg-dark-900 hover:bg-dark-800 border border-white/5 hover:border-neon-purple/50 text-slate-200 transition-all duration-300 group">
+        <div class="flex items-center gap-3">
+          <i data-lucide="mail" class="text-neon-purple w-5 h-5"></i>
+          <span class="font-mono text-xs select-all text-left">kalsoomfareedbaloch@gmail.com</span>
+        </div>
+        <i data-lucide="copy" class="w-4 h-4 text-slate-500 group-hover:text-neon-purple transition-colors ml-2" id="copy-icon"></i>
+      </button>
+
+      <!-- Telegram / Phone Call Card -->
+      <a href="tel:+923208469523" class="w-full sm:w-auto flex items-center gap-3 px-6 py-4 rounded-xl bg-dark-900 hover:bg-dark-800 border border-white/5 hover:border-neon-cyan/50 text-slate-200 transition-all duration-300">
+        <i data-lucide="phone" class="text-neon-cyan w-5 h-5"></i>
+        <span class="font-mono text-xs">+92 320 8469523</span>
+      </a>
+
+      <!-- LinkedIn Link Card -->
+      <a href="https://linkedin.com/in/kalsoom-fareed-baloch-0aba56400" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-dark-900 hover:bg-dark-800 border border-white/5 hover:border-neon-pink/50 text-slate-200 transition-all duration-300">
+        <i data-lucide="linkedin" class="text-neon-pink w-5 h-5"></i>
+        <span class="font-mono text-xs">LinkedIn</span>
+      </a>
+    </div>
+
+    <!-- Live Toast/Alert on copy -->
+    <div id="toast" class="hidden fixed bottom-6 right-6 px-4 py-2.5 bg-dark-900 border border-neon-green/30 text-neon-green font-mono text-xs rounded-lg shadow-xl shadow-black/50 items-center gap-2 animate-fade-in-up z-50">
+      <i data-lucide="check-circle-2" class="w-4 h-4"></i> Copied to clipboard!
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-8 px-6 border-t border-white/5 relative z-10">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 font-mono text-xs">
+    <div>
+      © 2026 <span class="text-slate-300 font-semibold">Kalsoom Baloch</span>. Hosted on kalsoombaloch.me
+    </div>
+    <div class="flex items-center gap-1">
+      Engineered with <i data-lucide="heart" class="w-3.5 h-3.5 text-neon-pink fill-neon-pink animate-pulse"></i> & code
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Initialise Lucide Icons
+  lucide.createIcons();
+
+  // Mobile Menu Logic
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  // Typing animation config
+  const phrases = [
+    "Building conversational custom AI agents.",
+    "Designing flawless, user-centric web applications.",
+    "Developing fast, scalable REST/SaaS proxies.",
+    "Crafting highly responsive pixel-perfect layouts."
+  ];
+  let phraseIndex = 0;
+  let characterIndex = 0;
+  let isDeleting = false;
+  const typingSpeed = 60;
+  const erasingSpeed = 30;
+  const delayBetweenPhrases = 2000;
+  const typingElement = document.getElementById("typing-text");
+
+  function typeEffect() {
+    const currentPhrase = phrases[phraseIndex];
+    if (isDeleting) {
+      typingElement.textContent = currentPhrase.substring(0, characterIndex - 1);
+      characterIndex--;
+    } else {
+      typingElement.textContent = currentPhrase.substring(0, characterIndex + 1);
+      characterIndex++;
+    }
+
+    if (!isDeleting && characterIndex === currentPhrase.length) {
+      isDeleting = true;
+      setTimeout(typeEffect, delayBetweenPhrases);
+    } else if (isDeleting && characterIndex === 0) {
+      isDeleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      setTimeout(typeEffect, 400);
+    } else {
+      setTimeout(typeEffect, isDeleting ? erasingSpeed : typingSpeed);
+    }
+  }
+
+  // Interactive Particle System Hero Canvas
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouse = { x: null, y: null, radius: 100 };
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
+
+  window.addEventListener('mouseout', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 1.5 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.4;
+      this.speedY = (Math.random() - 0.5) * 0.4;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+      // Mouse interactive push/pull
+      if (mouse.x && mouse.y) {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.hypot(dx, dy);
+        if (distance < mouse.radius) {
+          const force = (mouse.radius - distance) / mouse.radius;
+          this.x -= (dx / distance) * force * 1.5;
+          this.y -= (dy / distance) * force * 1.5;
+        }
+      }
+    }
+    draw() {
+      ctx.fillStyle = 'rgba(168, 85, 247, 0.15)';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    let count = Math.min(Math.floor((canvas.width * canvas.height) / 15000), 100);
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  initParticles();
+  animateParticles();
+
+  // Scroll Reveal Animations
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  const scrollRevealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+  revealElements.forEach(el => scrollRevealObserver.observe(el));
+
+  // Project Category Filter
+  function filterProjects(category) {
+    const items = document.querySelectorAll('.project-item');
+    const tabs = ['all', 'ai', 'ui'];
+    
+    // Highlight active tab
+    tabs.forEach(t => {
+      const el = document.getElementById(`tab-${t}`);
+      if (t === category) {
+        el.className = "px-4 py-2 rounded-md font-mono text-xs tracking-wider uppercase font-semibold text-white bg-neon-purple/20";
+      } else {
+        el.className = "px-4 py-2 rounded-md font-mono text-xs tracking-wider uppercase font-semibold text-slate-400 hover:text-white";
+      }
+    });
+
+    items.forEach(item => {
+      if (category === 'all' || item.getAttribute('data-category') === category) {
+        item.style.display = 'flex';
+        setTimeout(() => item.style.opacity = '1', 50);
+      } else {
+        item.style.opacity = '0';
+        setTimeout(() => item.style.display = 'none', 300);
+      }
+    });
+  }
+
+  // Copy Email Clipboard
+  function copyEmailToClipboard() {
+    const email = "kalsoomfareedbaloch@gmail.com";
+    navigator.clipboard.writeText(email).then(() => {
+      const toast = document.getElementById("toast");
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    });
+  }
+
+  // Start typewriter effect
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(typeEffect, 1000);
+  });
+</script>
+</body>
+</html>
